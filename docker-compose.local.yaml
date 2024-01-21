@@ -1,0 +1,67 @@
+version: '3.9'
+name: 'local-stack'
+
+services:
+        # Docker Image 생성시 <Project Name> + <Service> 로 설정되어 개발자에게 혼동을 줌.
+        # 따라서 Project Name 은 local 임을 명시 할 수 있도록 수정하고 Service Name 에서는 해당 사항을 제거.
+        # 변경전 : dnd-server-dnd-server-local
+        # 변경후 : local-stack-dnd-server
+        # 단, 이는 container name 과는 별도이므로 container name 에는 local 임을 알 수 있도록 내용을 추가.
+        # container 또는 image 검색 및 삭제, 정지 작업을 수행할 경우 가시성 향상.
+        #
+        # [ 최종 ] container name : dnd-server-local
+        # [ 최종 ] docker image name : local-stack-dnd-server
+        dnd-server:
+                build:
+                        context: .
+                        dockerfile: Dockerfile
+                container_name: dnd-server-local
+                restart: always
+                ports:
+                        - 3000:3000
+                depends_on:
+                        - mysql
+                env_file:
+                        - .env.local
+                networks:
+                        - dnd-network
+
+        mysql:
+                image: mysql
+                container_name: mysql-local
+                ports:
+                        - 3306:3306
+                command: --default-authentication-plugin=caching_sha2_password --sql_mode='STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION'
+                restart: always
+                volumes:
+                        - ./volumne/db-data:/data
+                env_file:
+                        - .env.local
+                environment:
+                        - MYSQL_USER=${DATABASE_USERNAME}
+                        - MYSQL_ROOT_PASSWORD=${DATABASE_PASSWORD}
+                        - MYSQL_PASSWORD=${DATABASE_PASSWORD}
+                        - MYSQL_DATABASE=${DATABASE_NAME}
+                healthcheck:
+                        test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+                        timeout: 20s
+                        retries: 10
+                networks:
+                        - dnd-network
+        redis:
+                image: 'redis'
+                container_name: 'redis-local'
+                ports:
+                        - '6379:6379'
+                volumes:
+                        - ./volumne/redis-data:/data
+                command: ['redis-server', '--appendonly', 'yes']
+                networks:
+                        - dnd-network
+
+volumes:
+        dbdata:
+                name: dnd-mysql-docker-db
+networks:
+        dnd-network:
+                name: dnd-bridge

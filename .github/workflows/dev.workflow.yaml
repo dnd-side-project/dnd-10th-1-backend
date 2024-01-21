@@ -1,0 +1,66 @@
+name: Deploy / Development
+
+on:
+        push:
+                branches: dev
+
+jobs:
+        pre-build:
+                uses: ./.github/workflows/pre-build.yaml
+
+        build:
+                runs-on: ubuntu-latest
+                needs: [pre-build]
+
+                steps:
+                        - uses: actions/checkout@v4
+
+                        - name: Load & Cache Dependency
+                          uses: ./.github/actions/cache-dependency
+
+                        - name: Generate Prisma Type
+                          run: npm run generate
+
+                        - name: Build Project
+                          run: npm run build --if-present
+
+                        - name: Upload Artifact
+                          uses: actions/upload-artifact@v3
+                          with:
+                                  name: build-artifact
+                                  path: ./dist
+                                  retention-days: 7
+
+                        # # default build path ./dist
+                        # - name: Check Build Size
+                        #   uses: preactjs/compressed-size-action@v2
+                        #   with:
+                        #     exclude: "{**/node_modules/**}"
+
+        deploy:
+                runs-on: ubuntu-latest
+                needs: [pre-build, build]
+
+                steps:
+                        - uses: actions/checkout@v4
+
+                        - name: Download Artifact
+                          uses: actions/download-artifact@v3
+                          with:
+                                  name: build-artifact
+                                  path: ./dist # 다운로드 받은 build-artifact 를 저장할 경로 설정
+
+                        - name: Deploy / Development2
+                          uses: easingthemes/ssh-deploy@main
+                          with:
+                                  SSH_PRIVATE_KEY: ${{secrets.EC2_SSH_KEY_PAIR}}
+                                  REMOTE_HOST: ${{ secrets.EC2_HOST }}
+                                  REMOTE_USER: ${{ secrets.EC2_USER }}
+                                  # EC2 에 전송할 파일/폴더 ( 변경 : dist -> / )
+                                  # 프로젝트 전체를 올려 dnd-server.service 파일에 접근할 목적
+                                  SOURCE: /
+                                  # 로컬에서 EC2 로 전송한 파일/폴더를 저장할 경로
+                                  TARGET: ${{ secrets.EC2_TARGET_DIR }}
+                                  EXCLUDE: /node_modules/, /.git/
+                                  SCRIPT_AFTER: |
+                                          sh services/wisdom-server/scripts/deploy/dev.deploy.sh

@@ -1,0 +1,17 @@
+[Unit]
+Description=wisdom-server.service
+ 
+[Service]
+Type=simple
+User=root
+Group=root
+# /usr/bin/node 경로에서 node 를 실행하고 /home/ubuntu/app/
+ExecStart=/usr/bin/node /home/ubuntu/app/dist/src/main.js
+Restart=always
+WorkingDirectory=/tmp
+# 서비스 우선순위
+Nice=19
+LimitNOFILE=16384
+ 
+[Install]
+WantedBy=multi-user.target
