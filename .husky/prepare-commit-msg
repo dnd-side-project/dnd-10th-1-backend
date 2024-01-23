@@ -1,16 +1,9 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+# #!/usr/bin/env sh
+# . "$(dirname -- "$0")/_/husky.sh" 
 
-current_branch=$(git rev-parse --abbrev-ref HEAD)
+# npx jira-prepare-commit-msg $1
 
-if [ "$current_branch" = "main" ]; then
-  echo "주의! main 브랜치에서 작업 중입니다. 서브 브랜치에서 커밋해주세요."
-  exit 1
-fi
-
-# yarn lint-staged
-
-# =================================================
+# echo 'wait add jira issue number we found from branch name'
 
 # BRANCH_NAME=$(git symbolic-ref -q HEAD)
 # BRANCH_NAME=${BRANCH_NAME##*/} # Remove everything before the last /
