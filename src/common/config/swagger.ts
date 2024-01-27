@@ -26,6 +26,7 @@ export class Swagger {
                                 scheme: 'bearer',
                                 bearerFormat: 'JWT',
                         })
+                        .setExternalDoc('Download JSON Specifications', '/docs-json')
                         .build();
 
                 const document = SwaggerModule.createDocument(this.app, options);
