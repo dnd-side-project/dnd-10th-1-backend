@@ -20,7 +20,7 @@ const modules: any[] = [PrismaModule, EnvModule, AwsModule, EmailModule, MyRedis
 @Global()
 @Module({
         imports: [...modules],
-        providers: [],
+        providers,
         exports: [...providers],
 })
 export class SharedServiceModule {}
