@@ -11,20 +11,20 @@ services:
         #
         # [ 최종 ] container name : dnd-server-local
         # [ 최종 ] docker image name : local-stack-dnd-server
-        dnd-server:
-                build:
-                        context: .
-                        dockerfile: Dockerfile
-                container_name: dnd-server-local
-                restart: always
-                ports:
-                        - 3000:3000
-                depends_on:
-                        - mysql
-                env_file:
-                        - .env.local
-                networks:
-                        - dnd-network
+        # dnd-server:
+        #         build:
+        #                 context: .
+        #                 dockerfile: Dockerfile
+        #         container_name: dnd-server-local
+        #         restart: always
+        #         ports:
+        #                 - 3000:3000
+        #         depends_on:
+        #                 - mysql
+        #         env_file:
+        #                 - .env.local
+        #         networks:
+        #                 - dnd-network
 
         mysql:
                 image: mysql
