@@ -78,12 +78,15 @@ model GameMbti {
   updatedAt    DateTime @default(now())
   mbtiNickname String
   description  String
-  mbtiMatching String
-  teamMBTI     String
+  mbti         String
+  teamMbti     String
 
   // Relation - 1 : 1
   gameCategory   GameCategory @relation(fields: [gameCategoryId], references: [id])
   gameCategoryId Int          @unique
+
+  // Relation - 1 : N
+  MbtiMatching MbtiMatching[]
 }
 
 // NOTE : Mysql 의 string[] 타입 미지원으로 1:N 으로 테이블 분리
@@ -92,6 +95,10 @@ model MbtiMatching {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   mbti      String
+
+  // Relation - N : 1
+  gameMbti   GameMbti @relation(fields: [gameMbtiId], references: [id])
+  gameMbtiId Int
 }
 
 // Table[blank_topic_result] : 빈칸 주제 게임 결과 저장
