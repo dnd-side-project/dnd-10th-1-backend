@@ -11,7 +11,7 @@ datasource db {
   directUrl = env("DATABASE_SEED_PUSH_MIGRATE_URL")
 }
 
-enum role {
+enum Role {
   Owner
   Participant
 }
@@ -22,11 +22,13 @@ model User {
   updatedAt    DateTime @default(now())
   displayName  String
   profileImage String
-  role         role
+  role         Role
   mbti         String?
 
   // Relation - 1 : N 
   BlankTopicResult BlankTopicResult[]
+  Room             Room               @relation(fields: [roomId], references: [id])
+  roomId           Int
 }
 
 // Table[room] : 방 정보 
@@ -39,6 +41,7 @@ model Room {
 
   // Relation - 1 : 1
   Invite Invite?
+  User   User[]
 }
 
 // Table[game_category] : 게임 카테고리 
