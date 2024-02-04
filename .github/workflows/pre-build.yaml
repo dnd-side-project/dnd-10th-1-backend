@@ -16,6 +16,7 @@ jobs:
                         - name: Compute dependency
                           id: compute_lockfile_hash_key
                           run: echo "hash=${{ hashFiles('**/package-lock.json') }}" >> $GITHUB_OUTPUT
+                          shell: bash
 
                         - name: Cache node_modules
                           id: cache-node-modules
