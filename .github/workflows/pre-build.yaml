@@ -13,19 +13,19 @@ jobs:
                 steps:
                         - uses: actions/checkout@v4
 
-                        - name: Compute dependency
-                          id: compute_lockfile_hash_key
-                          run: echo "hash=${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
+                        # - name: Compute dependency
+                        #   id: compute_lockfile_hash_key
+                        #   run: echo "hash=${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
 
-                        - name: Cache node_modules
-                          id: cache-node-modules
-                          uses: actions/cache@v2
-                          with:
-                                  path: node_modules
-                                  key: ${{ steps.compute_lockfile_hash_key.outputs.hash }}
+                        # - name: Cache node_modules
+                        #   id: cache-node-modules
+                        #   uses: actions/cache@v2
+                        #   with:
+                        #           path: node_modules
+                        #           key: ${{ steps.compute_lockfile_hash_key.outputs.hash }}
 
                         - name: Install dependencies
-                          if: steps.cache-node-modules.outputs.cache-hit != 'true'
+                          # if: steps.cache-node-modules.outputs.cache-hit != 'true'
                           run: yarn install --immutable --immutable-cache --check-cache
 
                         - name: Run Format
