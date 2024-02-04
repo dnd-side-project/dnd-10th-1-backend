@@ -237,37 +237,37 @@ async function main() {
         });
         const mbtiMatching = await prisma.mbtiMatching.createMany({
                 data: [
-                        { id: 1, mbti: 'ESFP ', gameMbtiId: 1 }, // ISTJ
-                        { id: 2, mbti: 'ISTP ', gameMbtiId: 1 }, // ISTJ
-                        { id: 3, mbti: 'ESFP ', gameMbtiId: 2 }, // ISFJ
-                        { id: 4, mbti: 'ESTP ', gameMbtiId: 2 }, // ISFJ
-                        { id: 5, mbti: 'ENFP ', gameMbtiId: 3 }, // INFJ
-                        { id: 6, mbti: 'ENTP ', gameMbtiId: 3 }, // INFJ
-                        { id: 7, mbti: 'ENFP ', gameMbtiId: 4 }, // INTJ 1개만 존재
-                        { id: 8, mbti: 'ESFJ ', gameMbtiId: 5 }, // ISTP
-                        { id: 9, mbti: 'ESTJ ', gameMbtiId: 5 }, // ISTP
-                        { id: 10, mbti: 'ESFJ ', gameMbtiId: 6 }, // ISFP
-                        { id: 11, mbti: 'ESTJ ', gameMbtiId: 6 }, // ISFP
-                        { id: 12, mbti: 'ENFJ ', gameMbtiId: 7 }, // INFP
-                        { id: 13, mbti: 'ENTJ ', gameMbtiId: 7 }, // INFP
-                        { id: 14, mbti: 'ENFJ ', gameMbtiId: 8 }, // INTP
-                        { id: 15, mbti: 'ENTJ ', gameMbtiId: 8 }, // INTP
-                        { id: 16, mbti: 'ISFJ ', gameMbtiId: 9 }, // ESTP
-                        { id: 17, mbti: 'ISTJ ', gameMbtiId: 9 }, // ESTP
-                        { id: 18, mbti: 'ISFJ ', gameMbtiId: 10 }, // ESFP
-                        { id: 19, mbti: 'ISTJ ', gameMbtiId: 10 }, // ESFP
-                        { id: 20, mbti: 'INFJ ', gameMbtiId: 11 }, // ENFP
-                        { id: 21, mbti: 'INTJ ', gameMbtiId: 11 }, // ENFP
-                        { id: 22, mbti: 'INFJ ', gameMbtiId: 12 }, // ENTP
-                        { id: 23, mbti: 'INTJ ', gameMbtiId: 12 }, // ENTP
-                        { id: 24, mbti: 'ISFP ', gameMbtiId: 13 }, // ESTJ
-                        { id: 25, mbti: 'ISTP ', gameMbtiId: 13 }, // ESTJ
-                        { id: 26, mbti: 'ISFP ', gameMbtiId: 14 }, // ESFJ
-                        { id: 27, mbti: 'ISTP ', gameMbtiId: 14 }, // ESFJ
-                        { id: 28, mbti: 'INTP ', gameMbtiId: 15 }, // ENFJ
-                        { id: 29, mbti: 'INFP ', gameMbtiId: 15 }, // ENFJ
-                        { id: 30, mbti: 'INTP ', gameMbtiId: 16 }, // ENTJ
-                        { id: 31, mbti: 'INFP ', gameMbtiId: 16 }, // ENTJ
+                        { id: 1, matchingMbti: 'ESFP ', gameMbtiId: 1 }, // ISTJ
+                        { id: 2, matchingMbti: 'ISTP ', gameMbtiId: 1 }, // ISTJ
+                        { id: 3, matchingMbti: 'ESFP ', gameMbtiId: 2 }, // ISFJ
+                        { id: 4, matchingMbti: 'ESTP ', gameMbtiId: 2 }, // ISFJ
+                        { id: 5, matchingMbti: 'ENFP ', gameMbtiId: 3 }, // INFJ
+                        { id: 6, matchingMbti: 'ENTP ', gameMbtiId: 3 }, // INFJ
+                        { id: 7, matchingMbti: 'ENFP ', gameMbtiId: 4 }, // INTJ 1개만 존재
+                        { id: 8, matchingMbti: 'ESFJ ', gameMbtiId: 5 }, // ISTP
+                        { id: 9, matchingMbti: 'ESTJ ', gameMbtiId: 5 }, // ISTP
+                        { id: 10, matchingMbti: 'ESFJ ', gameMbtiId: 6 }, // ISFP
+                        { id: 11, matchingMbti: 'ESTJ ', gameMbtiId: 6 }, // ISFP
+                        { id: 12, matchingMbti: 'ENFJ ', gameMbtiId: 7 }, // INFP
+                        { id: 13, matchingMbti: 'ENTJ ', gameMbtiId: 7 }, // INFP
+                        { id: 14, matchingMbti: 'ENFJ ', gameMbtiId: 8 }, // INTP
+                        { id: 15, matchingMbti: 'ENTJ ', gameMbtiId: 8 }, // INTP
+                        { id: 16, matchingMbti: 'ISFJ ', gameMbtiId: 9 }, // ESTP
+                        { id: 17, matchingMbti: 'ISTJ ', gameMbtiId: 9 }, // ESTP
+                        { id: 18, matchingMbti: 'ISFJ ', gameMbtiId: 10 }, // ESFP
+                        { id: 19, matchingMbti: 'ISTJ ', gameMbtiId: 10 }, // ESFP
+                        { id: 20, matchingMbti: 'INFJ ', gameMbtiId: 11 }, // ENFP
+                        { id: 21, matchingMbti: 'INTJ ', gameMbtiId: 11 }, // ENFP
+                        { id: 22, matchingMbti: 'INFJ ', gameMbtiId: 12 }, // ENTP
+                        { id: 23, matchingMbti: 'INTJ ', gameMbtiId: 12 }, // ENTP
+                        { id: 24, matchingMbti: 'ISFP ', gameMbtiId: 13 }, // ESTJ
+                        { id: 25, matchingMbti: 'ISTP ', gameMbtiId: 13 }, // ESTJ
+                        { id: 26, matchingMbti: 'ISFP ', gameMbtiId: 14 }, // ESFJ
+                        { id: 27, matchingMbti: 'ISTP ', gameMbtiId: 14 }, // ESFJ
+                        { id: 28, matchingMbti: 'INTP ', gameMbtiId: 15 }, // ENFJ
+                        { id: 29, matchingMbti: 'INFP ', gameMbtiId: 15 }, // ENFJ
+                        { id: 30, matchingMbti: 'INTP ', gameMbtiId: 16 }, // ENTJ
+                        { id: 31, matchingMbti: 'INFP ', gameMbtiId: 16 }, // ENTJ
                 ],
         });
 }
