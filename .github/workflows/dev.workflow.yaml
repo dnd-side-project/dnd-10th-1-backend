@@ -15,8 +15,8 @@ jobs:
                 steps:
                         - uses: actions/checkout@v4
 
-                        - name: Load & Cache Dependency
-                          uses: ./.github/actions/cache-dependency
+                        # - name: Load & Cache Dependency
+                        #   uses: ./.github/actions/cache-dependency
 
                         - name: Generate Prisma Type
                           run: npm run generate
