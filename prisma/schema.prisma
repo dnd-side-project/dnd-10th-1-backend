@@ -51,9 +51,9 @@ model GameCategory {
   updatedAt DateTime @default(now())
   gameTitle String
 
-  // Relation - 1 : 1
-  game_blank_topic GameBlankTopic?
-  GameMbti         GameMbti?
+  // Relation - 1 : N
+  game_blank_topic GameBlankTopic[]
+  GameMbti         GameMbti[]
 }
 
 // Table[game_blank_topic] : 빈칸 주제 게임
@@ -63,9 +63,9 @@ model GameBlankTopic {
   updatedAt   DateTime @default(now())
   description String
 
-  // Relation - 1 : 1
+  // Relation - N : 1
   gameCategory   GameCategory @relation(fields: [gameCategoryId], references: [id])
-  gameCategoryId Int          @unique
+  gameCategoryId Int
 
   // Relation - 1 : N 
   BlankTopicResult BlankTopicResult[]
@@ -81,9 +81,9 @@ model GameMbti {
   mbti         String
   teamMbti     String
 
-  // Relation - 1 : 1
+  // Relation - N : 1
   gameCategory   GameCategory @relation(fields: [gameCategoryId], references: [id])
-  gameCategoryId Int          @unique
+  gameCategoryId Int
 
   // Relation - 1 : N
   MbtiMatching MbtiMatching[]
@@ -91,10 +91,10 @@ model GameMbti {
 
 // NOTE : Mysql 의 string[] 타입 미지원으로 1:N 으로 테이블 분리
 model MbtiMatching {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  mbti      String
+  id           Int      @id @default(autoincrement())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+  matchingMbti String
 
   // Relation - N : 1
   gameMbti   GameMbti @relation(fields: [gameMbtiId], references: [id])

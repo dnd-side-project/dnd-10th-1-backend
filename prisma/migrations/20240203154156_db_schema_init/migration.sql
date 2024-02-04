@@ -7,6 +7,7 @@ CREATE TABLE `User` (
     `profileImage` VARCHAR(191) NOT NULL,
     `role` ENUM('Owner', 'Participant') NOT NULL,
     `mbti` VARCHAR(191) NULL,
+    `roomId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -38,7 +39,6 @@ CREATE TABLE `GameBlankTopic` (
     `description` VARCHAR(191) NOT NULL,
     `gameCategoryId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `GameBlankTopic_gameCategoryId_key`(`gameCategoryId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -49,11 +49,10 @@ CREATE TABLE `GameMbti` (
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `mbtiNickname` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
-    `mbtiMatching` VARCHAR(191) NOT NULL,
-    `teamMBTI` VARCHAR(191) NOT NULL,
+    `mbti` VARCHAR(191) NOT NULL,
+    `teamMbti` VARCHAR(191) NOT NULL,
     `gameCategoryId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `GameMbti_gameCategoryId_key`(`gameCategoryId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -63,6 +62,7 @@ CREATE TABLE `MbtiMatching` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `mbti` VARCHAR(191) NOT NULL,
+    `gameMbtiId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -92,10 +92,16 @@ CREATE TABLE `Invite` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
+ALTER TABLE `User` ADD CONSTRAINT `User_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE `GameBlankTopic` ADD CONSTRAINT `GameBlankTopic_gameCategoryId_fkey` FOREIGN KEY (`gameCategoryId`) REFERENCES `GameCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `GameMbti` ADD CONSTRAINT `GameMbti_gameCategoryId_fkey` FOREIGN KEY (`gameCategoryId`) REFERENCES `GameCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `MbtiMatching` ADD CONSTRAINT `MbtiMatching_gameMbtiId_fkey` FOREIGN KEY (`gameMbtiId`) REFERENCES `GameMbti`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `BlankTopicResult` ADD CONSTRAINT `BlankTopicResult_gameBlankTopicId_fkey` FOREIGN KEY (`gameBlankTopicId`) REFERENCES `GameBlankTopic`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
