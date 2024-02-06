@@ -13,39 +13,17 @@ jobs:
                 steps:
                         - uses: actions/checkout@v4
 
-                        # - name: Compute dependency
-                        #   id: compute_lockfile_hash_key
-                        #   run: echo "hash=${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
-
-                        # - name: Cache node_modules
-                        #   id: cache-node-modules
-                        #   uses: actions/cache@v2
-                        #   with:
-                        #           path: node_modules
-                        #           key: ${{ steps.compute_lockfile_hash_key.outputs.hash }}
-
                         - uses: pnpm/action-setup@v2
                           name: Install pnpm
                           with:
                             version: 8
                             run_install: false
-
-                        - name: Get pnpm store directory
-                          id: pnpm-cache
-                          shell: bash
-                          run: |
-                            echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-                
-                        - name: Setup pnpm cache
-                          uses: actions/cache@v3
+                        
+                        - uses: actions/setup-node@v4
                           with:
-                            path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-                            key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-                            restore-keys: |
-                              ${{ runner.os }}-pnpm-store-
-                
-                        - name: Install Dependency
-                          run: pnpm install
+                            node-version: '18'
+                            cache: 'pnpm'
+                        - run: pnpm install 
 
                         - name: Run Format
                           run: pnpm format
