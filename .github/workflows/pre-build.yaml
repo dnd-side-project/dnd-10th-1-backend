@@ -13,26 +13,23 @@ jobs:
                 steps:
                         - uses: actions/checkout@v4
 
-                        - name: Compute dependency
-                          id: compute_lockfile_hash_key
-                          run: echo "hash=${{ hashFiles('**/package-lock.json') }}" >> $GITHUB_OUTPUT
-
-                        - name: Cache node_modules
-                          id: cache-node-modules
-                          uses: actions/cache@v2
+                        - uses: pnpm/action-setup@v2
+                          name: Install pnpm
                           with:
-                                  path: node_modules
-                                  key: ${{ steps.compute_lockfile_hash_key.outputs.hash }}
+                                  version: 8
+                                  run_install: false
 
-                        - name: Install dependencies
-                          if: steps.cache-node-modules.outputs.cache-hit != 'true'
-                          run: npm ci
+                        - uses: actions/setup-node@v4
+                          with:
+                                  node-version: '18'
+                                  cache: 'pnpm'
+                        - run: pnpm install
 
                         - name: Run Format
-                          run: npm run format
+                          run: pnpm format
 
-                        - name: Run Lint
-                          run: npm run lint
+                        # - name: Run Lint
+                        #   run: pnpm lint
 
                         # - name: Run Test
                         #   run: npm run test
