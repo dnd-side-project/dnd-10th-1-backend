@@ -14,7 +14,7 @@
     "local:start": "dotenv -e .env.local nest start --watch",
     "local:migrate": "dotenv -e .env.local prisma migrate dev",
     "local:seed": "dotenv -e .env.local prisma db seed",
-    "dev:build:": "dotenv -e .env.dev nest build",
+    "dev:build": "dotenv -e .env.dev nest build",
     "dev:start": "dotenv -e .env.dev nest start --watch",
     "dev:migrate": "dotenv -e .env.dev prisma migrate dev",
     "dev:seed": "dotenv -e .env.dev prisma db seed",
