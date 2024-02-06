@@ -28,7 +28,7 @@ jobs:
                         - run: pnpm install 
 
                         - name: Generate Prisma Type
-                          run: npm run generate
+                          run: pnpm generate
 
                         - name: Set environment variables
                           env:
@@ -43,7 +43,7 @@ jobs:
                             echo "SERVICE_NAME=${SERVICE_NAME}" >> .env.dev
 
                         - name: Build Project
-                          run: npm run build --if-present
+                          run: pnpm dev:build:
 
                         - name: Upload Artifact
                           uses: actions/upload-artifact@v3
