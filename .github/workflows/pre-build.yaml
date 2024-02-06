@@ -26,10 +26,10 @@ jobs:
 
                         - name: Install dependencies
                           # if: steps.cache-node-modules.outputs.cache-hit != 'true'
-                          run: yarn install --immutable --immutable-cache --check-cache
+                          run: pnpm install --frozen-lockfile
 
                         - name: Run Format
-                          run: yarn format
+                          run: pnpm format
 
                         # - name: Run Lint
                         #   run: yarn lint
