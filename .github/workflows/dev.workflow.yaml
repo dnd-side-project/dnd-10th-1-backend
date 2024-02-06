@@ -43,7 +43,7 @@ jobs:
                             echo "SERVICE_NAME=${SERVICE_NAME}" >> .env.dev
 
                         - name: Build Project
-                          run: pnpm dev:build:
+                          run: pnpm dev:build
 
                         - name: Upload Artifact
                           uses: actions/upload-artifact@v3
