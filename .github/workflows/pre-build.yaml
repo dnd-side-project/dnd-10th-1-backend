@@ -24,6 +24,12 @@ jobs:
                         #           path: node_modules
                         #           key: ${{ steps.compute_lockfile_hash_key.outputs.hash }}
 
+                        - uses: pnpm/action-setup@v2
+                          name: Install pnpm
+                          with:
+                            version: 8
+                            run_install: false
+
                         - name: Install dependencies
                           # if: steps.cache-node-modules.outputs.cache-hit != 'true'
                           run: pnpm install --frozen-lockfile
