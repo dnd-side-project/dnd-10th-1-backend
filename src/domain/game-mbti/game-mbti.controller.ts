@@ -16,7 +16,7 @@ export class GameMbtiController {
                 status: 200,
                 description: '16가지 MBTI 조회 성공',
         })
-        @Get('/list')
+        @Get()
         async getMbtiList(@Res() res: Response) {
                 const mbtiList = await this.gameMbtiService.getMbtiList();
 
