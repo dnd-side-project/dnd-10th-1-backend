@@ -7,9 +7,11 @@ import { EventsModule } from '@/domain/events/events.module';
 import { HealthCheckModule } from '@/domain/health-check/health.module';
 
 import { SharedServiceModule } from '@/shared-service/shared-service.module';
+import { GameMbtiModule } from './domain/game-mbti/game-mbti.module';
+import { GameMbtiService } from './domain/game-mbti/game-mbti.service';
 
 @Module({
-        imports: [HealthCheckModule, SharedServiceModule, EventsModule],
+        imports: [HealthCheckModule, SharedServiceModule, EventsModule, GameMbtiModule],
         controllers: [],
         providers: [
                 {
@@ -17,6 +19,7 @@ import { SharedServiceModule } from '@/shared-service/shared-service.module';
                         useClass: LoggingInterceptor,
                 },
                 Logger,
+                GameMbtiService,
         ],
 })
 export class AppModule {}
