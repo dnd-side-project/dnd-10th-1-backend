@@ -9,7 +9,7 @@ if [ "$current_branch" = "main" ]; then
 fi
 
 # 웹 소켓 모듈 설정으로 임시로 막아놓았습니다. 
-# yarn lint-staged
+# pnpm lint-staged
 
 # =================================================
 

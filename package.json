@@ -14,7 +14,7 @@
     "local:start": "dotenv -e .env.local nest start --watch",
     "local:migrate": "dotenv -e .env.local prisma migrate dev",
     "local:seed": "dotenv -e .env.local prisma db seed",
-    "dev:build:": "dotenv -e .env.dev nest build",
+    "dev:build": "dotenv -e .env.dev nest build",
     "dev:start": "dotenv -e .env.dev nest start --watch",
     "dev:migrate": "dotenv -e .env.dev prisma migrate dev",
     "dev:seed": "dotenv -e .env.dev prisma db seed",
@@ -30,11 +30,11 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "db:seed": "yarn local:seed",
+    "db:seed": "pnpm local:seed",
     "db:migrate": "dotenv -e .env.local prisma migrate dev ",
     "db:clean": "dotenv -e .env.local -- prisma db push --force-reset",
-    "db:start": "yarn generate && docker-compose --env-file .env.local -f docker-compose.local.yaml up -d",
-    "db:setup": "yarn db:start && yarn db:clean && yarn db:seed",
+    "db:start": "pnpm generate && docker-compose --env-file .env.local -f docker-compose.local.yaml up -d",
+    "db:setup": "pnpm db:start && pnpm db:clean && pnpm db:seed",
     "docker:stop:container": "docker rm -f $(docker ps -qa)",
     "docker:remove:image": "docker rmi $(docker ps -qa)"
   },
@@ -73,7 +73,8 @@
     "passport-kakao": "^1.0.1",
     "prisma": "^5.8.1",
     "reflect-metadata": "^0.2.1",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "socket.io": "^4.7.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.4",
