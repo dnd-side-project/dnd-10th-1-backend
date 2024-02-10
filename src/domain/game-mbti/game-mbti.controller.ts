@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { GameMbtiService } from './game-mbti.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { UpdateUserMbtiDto } from './dto/update-mbti.dto';
+import { UserMbtiDto } from './dto/user-mbti.dto';
 
 @ApiTags('MBTI API')
 @Controller('game/mbti/')
@@ -33,8 +33,8 @@ export class GameMbtiController {
                 description: '사용자의 MBTI 입력 받아오기 성공',
         })
         @Post()
-        getUserMbti(@Body() updateUserMbtiDto: UpdateUserMbtiDto) {
-                const { mbti, userId } = updateUserMbtiDto;
-                return this.gameMbtiService.getUserMbti(userId, mbti);
+        UpdateUserMbti(@Body() UserMbtiDto: UserMbtiDto) {
+                const { mbti, userId } = UserMbtiDto;
+                return this.gameMbtiService.UpdateUserMbti(userId, mbti);
         }
 }

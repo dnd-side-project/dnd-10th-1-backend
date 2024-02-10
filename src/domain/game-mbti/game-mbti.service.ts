@@ -12,7 +12,7 @@ export class GameMbtiService {
                 return mbtiList.map((value) => value.mbti);
         }
 
-        async getUserMbti(userId: number, mbti: string) {
+        async UpdateUserMbti(userId: number, mbti: string) {
                 const updateUser = await this.prismaService.user.update({
                         where: { id: userId },
                         data: { mbti: mbti },
