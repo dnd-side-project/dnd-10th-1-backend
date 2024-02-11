@@ -12,7 +12,7 @@ const prisma = new PrismaClient({
 async function main() {
         const room = await prisma.room.create({
                 data: {
-                        id: 1,
+                        id: 'DNNV215SV',
                         createdAt: new Date(),
                         updatedAt: new Date(),
                 },
@@ -22,7 +22,7 @@ async function main() {
                         id: 1,
                         createdAt: new Date(),
                         url: 'https://example.com',
-                        roomId: 1,
+                        roomId: 'DNNV215SV',
                 },
         });
         const user = await prisma.user.createMany({
@@ -33,7 +33,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ISTJ',
-                                roomId: 1,
+                                roomId: 'DNNV215SV',
                         },
                         {
                                 id: 2,
@@ -41,7 +41,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ISFJ',
-                                roomId: 1,
+                                roomId: 'DNNV215SV',
                         },
                         {
                                 id: 3,
@@ -49,7 +49,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ISFP',
-                                roomId: 1,
+                                roomId: 'DNNV215SV',
                         },
                         {
                                 id: 4,
@@ -57,7 +57,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ENFP',
-                                roomId: 1,
+                                roomId: 'DNNV215SV',
                         },
                         {
                                 id: 5,
@@ -65,7 +65,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ENFJ',
-                                roomId: 1,
+                                roomId: 'DNNV215SV',
                         },
                         {
                                 id: 6,
@@ -73,7 +73,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ENTP',
-                                roomId: 1,
+                                roomId: 'DNNV215SV',
                         },
                 ],
         });
