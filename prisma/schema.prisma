@@ -78,7 +78,7 @@ model GameMbti {
   updatedAt    DateTime @default(now())
   mbtiNickname String
   description  String
-  mbti         String
+  mbti         String @unique
   teamMbti     String
 
   // Relation - N : 1
