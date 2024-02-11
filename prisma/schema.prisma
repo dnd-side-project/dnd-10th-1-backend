@@ -24,6 +24,7 @@ model User {
   profileImage String
   role         Role
   mbti         String?
+  mbtiNickname String?
 
   // Relation - 1 : N 
   BlankTopicResult BlankTopicResult[]
