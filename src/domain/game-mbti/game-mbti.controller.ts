@@ -1,8 +1,9 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Query, Res } from '@nestjs/common';
 import { GameMbtiService } from './game-mbti.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { UserMbtiDto } from './dto/user-mbti.dto';
+import { UserMbtiDto } from './dto/user.mbti.dto';
+import { MbtiResultDto } from './dto/mbti.result.dto';
 
 @ApiTags('MBTI API')
 @Controller('game/mbti/')
@@ -36,5 +37,20 @@ export class GameMbtiController {
         UpdateUserMbti(@Body() UserMbtiDto: UserMbtiDto) {
                 const { mbti, userId } = UserMbtiDto;
                 return this.gameMbtiService.UpdateUserMbti(userId, mbti);
+        }
+
+        @ApiOperation({
+                summary: 'MBTI 결과 조회하기 API',
+                description:
+                        '사용자의 MBTI에 따른 개인 결과, 팀 조합 결과, 팀원 결과 목록 데이터를 조회합니다.',
+        })
+        @ApiResponse({
+                status: 200,
+                description: '사용자에 따른 MBTI 결과 데이터 조회하기 성공',
+        })
+        @Get('/result')
+        getMbtiResult(@Query() MbtiResultDto: MbtiResultDto) {
+                const { userId, roomId } = MbtiResultDto;
+                const userMbtiResult = this.gameMbtiService.getUserMbtiResult(userId);
         }
 }

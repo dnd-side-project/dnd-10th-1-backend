@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class GameMbtiService {
         constructor(private readonly prismaService: PrismaService) {}
+
         async getMbtiList() {
                 const mbtiList = await this.prismaService.gameMbti.findMany({
                         select: { mbti: true },
@@ -19,5 +20,23 @@ export class GameMbtiService {
                 });
 
                 return updateUser.mbti;
+        }
+
+        async getUserMbti(userId: number) {
+                const mbti = await this.prismaService.user.findUnique({
+                        select: { mbti: true },
+                        where: { id: userId },
+                });
+
+                return mbti.mbti;
+        }
+
+        async getUserMbtiResult(userId: number) {
+                const userMbti = await this.getUserMbti(userId);
+                const result = await this.prismaService.gameMbti.findUnique({
+                        select: { mbtiNickname: true, description: true },
+                        where: { mbti: userMbti },
+                });
+                return result;
         }
 }
