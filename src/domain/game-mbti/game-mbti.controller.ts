@@ -51,12 +51,14 @@ export class GameMbtiController {
         @Get('/result')
         async getMbtiResult(@Query() MbtiResultDto: MbtiResultDto, @Res() res: Response) {
                 const { userId, roomId } = MbtiResultDto;
-                const userMbtiResult = await this.gameMbtiService.getUserMbtiResult(userId);
+                const { user, userMbtiResult } =
+                        await this.gameMbtiService.getUserMbtiResult(userId);
                 const { members, teamMbtiResult } =
                         await this.gameMbtiService.getTeamResult(roomId);
 
                 res.status(HttpStatus.OK).json({
                         data: {
+                                user,
                                 userMbtiResult,
                                 teamMbtiResult,
                                 members,

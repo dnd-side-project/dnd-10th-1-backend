@@ -37,11 +37,18 @@ export class GameMbtiService {
 
         async getUserMbtiResult(userId: number) {
                 const userMbti = await this.getUserMbti(userId);
-                const result = await this.prismaService.gameMbti.findUnique({
+                const user = await this.prismaService.user.findUnique({
+                        select: { displayName: true, profileImage: true },
+                        where: { id: userId },
+                });
+                const userMbtiResult = await this.prismaService.gameMbti.findUnique({
                         select: { mbtiNickname: true, description: true },
                         where: { mbti: userMbti },
                 });
-                return result;
+                return {
+                        user,
+                        userMbtiResult,
+                };
         }
 
         setTeamMbti(teamMbtiList: string[]): string {
@@ -68,7 +75,7 @@ export class GameMbtiService {
 
         async getTeamResult(roomId: string) {
                 const members = await this.prismaService.user.findMany({
-                        select: { id: true, mbti: true, mbtiNickname: true },
+                        select: { id: true, mbti: true, mbtiNickname: true, profileImage: true },
                         where: { roomId: roomId },
                 });
                 const mbtiList = members.map((value) => value.mbti);
