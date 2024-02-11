@@ -6,7 +6,7 @@ import { UserMbtiDto } from './dto/user.mbti.dto';
 import { MbtiResultDto } from './dto/mbti.result.dto';
 
 @ApiTags('MBTI API')
-@Controller('game/mbti/')
+@Controller('game/mbti')
 export class GameMbtiController {
         constructor(private readonly gameMbtiService: GameMbtiService) {}
 
