@@ -34,7 +34,7 @@ model User {
 
 // Table[room] : 방 정보 
 model Room {
-  id        String      @id
+  id        String      @id @default(uuid())
   // NOTE: Table[room]의 id 는 uuid 형태로 결정 (roomCode = id)
   // ex. DNNV215SV
   createdAt DateTime @default(now())
