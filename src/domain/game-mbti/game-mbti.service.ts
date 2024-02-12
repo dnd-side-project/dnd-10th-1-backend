@@ -13,7 +13,7 @@ export class GameMbtiService {
                 return mbtiList.map((value) => value.mbti);
         }
 
-        async UpdateUserMbti(userId: number, mbti: string) {
+        async updateUserMbti(userId: number, mbti: string) {
                 const mbtiNickname = await this.prismaService.gameMbti.findUnique({
                         select: { mbtiNickname: true },
                         where: { mbti: mbti },
