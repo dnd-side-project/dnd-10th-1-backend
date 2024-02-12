@@ -19,7 +19,6 @@ import { GameMbtiService } from './domain/game-mbti/game-mbti.service';
                         useClass: LoggingInterceptor,
                 },
                 Logger,
-                GameMbtiService,
         ],
 })
 export class AppModule {}

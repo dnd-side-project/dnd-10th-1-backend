@@ -5,5 +5,6 @@ import { GameMbtiService } from './game-mbti.service';
 @Module({
         providers: [GameMbtiService],
         controllers: [GameMbtiController],
+        exports: [GameMbtiService],
 })
 export class GameMbtiModule {}
