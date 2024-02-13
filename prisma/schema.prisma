@@ -52,8 +52,9 @@ model GameCategory {
   gameTitle String
 
   // Relation - 1 : N
-  game_blank_topic GameBlankTopic[]
-  GameMbti         GameMbti[]
+  GameBlankTopic GameBlankTopic[]
+  GameMbti       GameMbti[]
+  GameTopicGacha GameTopicGacha[]
 }
 
 // Table[game_blank_topic] : 빈칸 주제 게임
@@ -125,4 +126,16 @@ model Invite {
   // Relation - 1 : 1 
   room   Room @relation(fields: [roomId], references: [id])
   roomId Int  @unique
+}
+
+// Table[game_topic_gacha] : 주제 가챠
+model GameTopicGacha {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  description String
+
+  // Relation - N : 1
+  gameCategory   GameCategory @relation(fields: [gameCategoryId], references: [id])
+  gameCategoryId Int
 }
