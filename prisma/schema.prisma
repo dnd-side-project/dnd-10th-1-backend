@@ -80,7 +80,9 @@ model GameMbti {
   mbtiNickname String
   description  String
   mbti         String @unique
+  mbtiImage    String
   teamMbti     String
+  teamMbtiImage  String
 
   // Relation - N : 1
   gameCategory   GameCategory @relation(fields: [gameCategoryId], references: [id])
