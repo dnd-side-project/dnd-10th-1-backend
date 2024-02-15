@@ -3,15 +3,15 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 
 import { LoggingInterceptor } from '@/common/interceptors';
 
-import { EventsModule } from '@/domain/events/events.module';
 import { HealthCheckModule } from '@/domain/health-check/health.module';
 
 import { SharedServiceModule } from '@/shared-service/shared-service.module';
 import { GameMbtiModule } from './domain/game-mbti/game-mbti.module';
-import { GameMbtiService } from './domain/game-mbti/game-mbti.service';
+import { RoomModule } from './domain/room/room.module';
+import { UserModule } from './domain/user/user.module';
 
 @Module({
-        imports: [HealthCheckModule, SharedServiceModule, EventsModule, GameMbtiModule],
+        imports: [HealthCheckModule, SharedServiceModule, RoomModule, GameMbtiModule, UserModule],
         controllers: [],
         providers: [
                 {
