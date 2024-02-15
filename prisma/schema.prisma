@@ -24,18 +24,19 @@ model User {
   profileImage String
   role         Role
   mbti         String?
+  mbtiNickname String?
 
   // Relation - 1 : N 
   BlankTopicResult BlankTopicResult[]
   Room             Room               @relation(fields: [roomId], references: [id])
-  roomId           Int
+  roomId           String
 }
 
 // Table[room] : 방 정보 
 model Room {
-  id        Int      @id @default(autoincrement())
-  // NOTE: roomCode 는 Table[room].id 의 암호화/복호화 하는 방식으로 대체
-  // roomCode  String
+  id        String      @id @default(uuid())
+  // NOTE: Table[room]의 id 는 uuid 형태로 결정 (roomCode = id)
+  // ex. DNNV215SV
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
@@ -79,8 +80,10 @@ model GameMbti {
   updatedAt    DateTime @default(now())
   mbtiNickname String
   description  String
-  mbti         String
+  mbti         String @unique
+  mbtiImage    String
   teamMbti     String
+  teamMbtiImage  String
 
   // Relation - N : 1
   gameCategory   GameCategory @relation(fields: [gameCategoryId], references: [id])
@@ -125,7 +128,7 @@ model Invite {
 
   // Relation - 1 : 1 
   room   Room @relation(fields: [roomId], references: [id])
-  roomId Int  @unique
+  roomId String  @unique
 }
 
 // Table[game_topic_gacha] : 주제 가챠
