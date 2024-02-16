@@ -13,6 +13,7 @@ import {
 } from '@nestjs/websockets';
 import { GameEvent } from './types/events';
 import console from 'console';
+import { generateRandomNumber } from '@/common/utils';
 
 @WebSocketGateway({
         namespace: '/game',
@@ -33,10 +34,27 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 @MessageBody() data: { roomId: string },
         ) {
                 const { roomId } = data;
-                const gameInfo = await this.gameService.findAllGameInfo();
+                const gameCategory = await this.gameService.findAllGameCategory();
 
-                client.emit(GameEvent.GET_GAME_CATEGORY, gameInfo);
+                client.emit(GameEvent.GET_GAME_CATEGORY, gameCategory);
                 this.server.to(roomId).emit(GameEvent.MOVE_TO_LOADING_ROOM);
+        }
+
+        // // game - 게임 시작
+        // NOTE : 빈칸주제 게임인 경우만 사용
+        @SubscribeMessage(GameEvent.START_GAME)
+        async onStartGame(
+                @ConnectedSocket() client: Socket,
+                @MessageBody() data: { roomId: string; gameId: number },
+        ) {
+                const { roomId, gameId: _gamdId } = data;
+
+                // 빈칸주제 데이터 9개 한정
+                const randomNum = generateRandomNumber(9);
+                const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
+
+                this.server.to(roomId).emit(GameEvent.GET_GAME_ITEM, gameInfo);
+                this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME);
         }
 
         // // game - 게임 종료

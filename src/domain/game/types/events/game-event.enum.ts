@@ -24,6 +24,12 @@ export enum GameEvent {
         START_GAME = 'start-game',
 
         /**
+         * @event game - 게임 시작 이벤트
+         * @description 게임 시작을 위한 페이지로 이동 합니다.
+         * */
+        MOVE_TO_GAME = 'move-to-game',
+
+        /**
          * @event game - 게임 종류 선택 이벤트
          * @description 게임에 대한 정보를 조회 합니다.
          * */

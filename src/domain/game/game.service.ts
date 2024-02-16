@@ -9,7 +9,7 @@ export class GameService {
                 private readonly userService: UserService,
         ) {}
 
-        async findAllGameInfo() {
+        async findAllGameCategory() {
                 const gameList = await this.prismaService.gameCategory.findMany({
                         select: {
                                 id: true,
@@ -17,5 +17,19 @@ export class GameService {
                         },
                 });
                 return gameList;
+        }
+
+        async findOneBlankTopic(blankTopicId: number) {
+                const gameInfo = await this.prismaService.gameBlankTopic.findUnique({
+                        select: {
+                                id: true,
+                                description: true,
+                        },
+                        where: {
+                                id: blankTopicId,
+                        },
+                });
+
+                return gameInfo;
         }
 }
