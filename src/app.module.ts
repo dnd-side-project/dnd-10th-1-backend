@@ -9,9 +9,17 @@ import { SharedServiceModule } from '@/shared-service/shared-service.module';
 import { GameMbtiModule } from './domain/game-mbti/game-mbti.module';
 import { RoomModule } from './domain/room/room.module';
 import { UserModule } from './domain/user/user.module';
+import { GameModule } from './domain/game/game.module';
 
 @Module({
-        imports: [HealthCheckModule, SharedServiceModule, RoomModule, GameMbtiModule, UserModule],
+        imports: [
+                HealthCheckModule,
+                SharedServiceModule,
+                RoomModule,
+                GameMbtiModule,
+                UserModule,
+                GameModule,
+        ],
         controllers: [],
         providers: [
                 {
