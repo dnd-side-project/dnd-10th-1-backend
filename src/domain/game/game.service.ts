@@ -8,4 +8,14 @@ export class GameService {
                 private readonly prismaService: PrismaService,
                 private readonly userService: UserService,
         ) {}
+
+        async findAllGameInfo() {
+                const gameList = await this.prismaService.gameCategory.findMany({
+                        select: {
+                                id: true,
+                                gameTitle: true,
+                        },
+                });
+                return gameList;
+        }
 }

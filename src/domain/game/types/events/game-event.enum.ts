@@ -6,13 +6,19 @@ export enum GameEvent {
         MOVE_TO_LOADING_ROOM = 'move-to-loading-room',
 
         /**
-         * @event game - 게임 종류 선택 이벤트
+         * @event game - 게임 종류 조회 이벤트
          * @description 방장이 게임을 선택 합니다.
          * */
         SELECT_GAME = 'select-game',
 
         /**
-         * @event game - 게임 종류 선택 이벤트
+         * @event game - 게임 종류 조회 이벤트
+         * @description 게임 목록 정보를 조회 합니다.
+         * */
+        GET_GAME_CATEGORY = 'get-game-category',
+
+        /**
+         * @event game - 게임 시작 이벤트
          * @description 방장이 게임을 시작 합니다.
          * */
         START_GAME = 'start-game',
@@ -65,4 +71,10 @@ export enum GameEvent {
          * @description 사용자가 작성한 빈칸주제 답변을 전송 합니다.
          * */
         SEND_USER_ANSWER = 'send-user-answer',
+
+        /**
+         * @event game[빈칸주제] - 결과조회
+         * @description 빈칸주제 게임의 결과를 조회 합니다.
+         * */
+        GET_USERS_ANSWER = 'get-users-answer',
 }
