@@ -32,4 +32,46 @@ export class GameService {
 
                 return gameInfo;
         }
+
+        async createBlankTopicUserAnswer(data: {
+                userId: number;
+                topicId: number;
+                answer: string;
+        }) {
+                const { userId, topicId, answer } = data;
+                console.log('createBlankTopicUserAnswer: 동작함');
+                return await this.prismaService.blankTopicResult.create({
+                        data: {
+                                userId,
+                                gameBlankTopicId: topicId,
+                                answer,
+                        },
+                });
+        }
+
+        async countBlankTopicAnswer(roomId: string) {
+                const answerCountList = await this.prismaService.user.findMany({
+                        select: {
+                                _count: {
+                                        select: {
+                                                BlankTopicResult: true,
+                                        },
+                                },
+                        },
+                        where: {
+                                roomId,
+                        },
+                });
+                const answerCount = answerCountList[0]._count.BlankTopicResult;
+
+                const roomUsers = await this.prismaService.user.count({
+                        where: {
+                                roomId,
+                        },
+                });
+
+                const unanswerCount = roomUsers - answerCount;
+
+                return { answerCount, unanswerCount };
+        }
 }

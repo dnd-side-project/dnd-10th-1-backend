@@ -86,9 +86,37 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 client.emit(GameEvent.MOVE_TO_MBTI_LOADING);
         }
 
-        // // game[빈칸주제] - 게임시작
-        // @SubscribeMessage(GameEvent.SEND_USER_ANSWER)
-        // async onSendUserAnswer(@ConnectedSocket() client: Socket, @MessageBody() data: any) {}
+        // game[빈칸주제] - 게임시작
+        @SubscribeMessage(GameEvent.SEND_USER_ANSWER)
+        async onSendUserAnswer(
+                @ConnectedSocket() client: Socket,
+                @MessageBody()
+                data: {
+                        roomId: string;
+                        topicId: number;
+                        userId: number;
+                        answer: string;
+                },
+        ) {
+                const { roomId, topicId, userId, answer } = data;
+
+                // works
+                const _createUserAnswer = await this.gameService.createBlankTopicUserAnswer({
+                        topicId,
+                        userId,
+                        answer,
+                });
+                const { answerCount, unanswerCount } =
+                        await this.gameService.countBlankTopicAnswer(roomId);
+
+                this.server
+                        .to(roomId)
+                        .emit(GameEvent.LISTEN_LIVE_USER_COUNT, { answerCount, unanswerCount });
+
+                if (unanswerCount === 0) {
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_BLANK_TOPIC_RESULT);
+                }
+        }
 
         // // game[빈칸주제] - 결과조회
         // @SubscribeMessage(GameEvent.GET_USERS_ANSWER)
