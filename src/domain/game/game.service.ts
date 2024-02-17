@@ -74,4 +74,20 @@ export class GameService {
 
                 return { answerCount, unanswerCount };
         }
+        async findAllBlankTopicUserAnswer(roomId) {
+                const userAnswerList = await this.prismaService.blankTopicResult.findMany({
+                        select: {
+                                userId: true,
+                                gameBlankTopicId: true,
+                                answer: true,
+                        },
+                        where: {
+                                user: {
+                                        roomId,
+                                },
+                        },
+                });
+
+                return userAnswerList;
+        }
 }

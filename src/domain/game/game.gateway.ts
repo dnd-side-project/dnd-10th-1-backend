@@ -118,9 +118,16 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 }
         }
 
-        // // game[빈칸주제] - 결과조회
-        // @SubscribeMessage(GameEvent.GET_USERS_ANSWER)
-        // async onGetUsersAnswer(@ConnectedSocket() client: Socket, @MessageBody() data: any) {}
+        // game[빈칸주제] - 결과조회
+        @SubscribeMessage(GameEvent.GET_USERS_ANSWER)
+        async onGetUsersAnswer(
+                @ConnectedSocket() client: Socket,
+                @MessageBody() data: { roomId: string },
+        ) {
+                const { roomId } = data;
+                const userAnswerList = await this.gameService.findAllBlankTopicUserAnswer(roomId);
+                this.server.to(roomId).emit(GameEvent.GET_USERS_ANSWER, userAnswerList);
+        }
 
         afterInit() {
                 console.log('connected');
