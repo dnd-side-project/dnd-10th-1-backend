@@ -13,6 +13,7 @@ export class UserService {
                                 displayName: true,
                                 profileImage: true,
                                 role: true,
+                                status: true,
                         },
                         where: { id },
                 });

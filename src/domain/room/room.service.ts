@@ -20,11 +20,15 @@ export class RoomService {
                         },
                 });
 
-                console.log('newRoom', newRoom);
                 await this.userService.updatePermission({
                         userId: ownerId,
                         roomId: newRoom.id,
                         role: Role.Owner,
+                });
+
+                await this.userService.updateUserRoomStatus({
+                        userId: ownerId,
+                        status: 'enter',
                 });
 
                 return newRoom.id;
@@ -38,6 +42,11 @@ export class RoomService {
                         roomId,
                         role: Role.Participant,
                 });
+
+                await this.userService.updateUserRoomStatus({
+                        userId,
+                        status: 'enter',
+                });
         }
 
         async findUsersByRoomId(roomId: string) {
@@ -47,6 +56,7 @@ export class RoomService {
                                 displayName: true,
                                 profileImage: true,
                                 role: true,
+                                status: true,
                         },
                         where: {
                                 roomId,
