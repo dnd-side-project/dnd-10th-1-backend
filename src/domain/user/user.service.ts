@@ -55,7 +55,6 @@ export class UserService {
                 const userMbtiNullCount = await this.prismaService.user.count({
                         where: { roomId, mbti: null },
                 });
-                console.log(userMbtiNullCount);
 
                 return userMbtiNullCount;
         }

@@ -36,14 +36,15 @@ export class GameService {
         async createBlankTopicUserAnswer(data: {
                 userId: number;
                 topicId: number;
+                gameRoundId: number;
                 answer: string;
         }) {
-                const { userId, topicId, answer } = data;
-                console.log('createBlankTopicUserAnswer: 동작함');
+                const { userId, topicId, gameRoundId, answer } = data;
                 return await this.prismaService.blankTopicResult.create({
                         data: {
                                 userId,
                                 gameBlankTopicId: topicId,
+                                gameRoundId,
                                 answer,
                         },
                 });
@@ -74,20 +75,47 @@ export class GameService {
 
                 return { answerCount, unanswerCount };
         }
-        async findAllBlankTopicUserAnswer(roomId) {
+        async findAllBlankTopicUserAnswer(data: { roomId: string; gameRoundId: number }) {
+                const { roomId, gameRoundId } = data;
                 const userAnswerList = await this.prismaService.blankTopicResult.findMany({
                         select: {
                                 userId: true,
-                                gameBlankTopicId: true,
                                 answer: true,
                         },
                         where: {
                                 user: {
                                         roomId,
                                 },
+                                gameRoundId,
                         },
                 });
 
                 return userAnswerList;
+        }
+        async createGameBlankTopicRound(data: { roomId: string; topicId: number }) {
+                const { roomId, topicId } = data;
+                const _createGameRound = await this.prismaService.gameRound.create({
+                        data: {
+                                roomId,
+                                gameBlankTopicId: topicId,
+                                status: 'InProgress',
+                        },
+                });
+                return;
+        }
+
+        async findCurrentGameRound(data: { roomId: string; topicId: number }) {
+                const { roomId, topicId } = data;
+                const gameRound = await this.prismaService.gameRound.findFirst({
+                        where: {
+                                roomId,
+                                gameBlankTopicId: topicId,
+                        },
+                        orderBy: {
+                                createdAt: 'desc',
+                        },
+                });
+
+                return gameRound.id;
         }
 }

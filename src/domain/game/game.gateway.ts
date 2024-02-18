@@ -55,13 +55,22 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 @ConnectedSocket() client: Socket,
                 @MessageBody() data: { roomId: string; gameId: number },
         ) {
-                const { roomId, gameId: _gamdId } = data;
+                const { roomId, gameId } = data;
 
-                // 빈칸주제 데이터 9개 한정
-                const randomNum = generateRandomNumber(9);
-                const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
+                // 빈칸주제 게임 데이터
+                if (gameId === 1) {
+                        // 빈칸주제 데이터 9개 한정 랜덤 뽑기
+                        const randomNum = generateRandomNumber(9);
 
-                this.server.to(roomId).emit(GameEvent.GET_GAME_ITEM, gameInfo);
+                        const _createGameRound = await this.gameService.createGameBlankTopicRound({
+                                roomId,
+                                topicId: randomNum,
+                        });
+
+                        const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
+                        this.server.to(roomId).emit(GameEvent.GET_GAME_ITEM, gameInfo);
+                }
+
                 this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME);
         }
 
@@ -138,10 +147,15 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
         ) {
                 const { roomId, topicId, userId, answer } = data;
 
-                // works
+                const gameRoundId = await this.gameService.findCurrentGameRound({
+                        roomId,
+                        topicId,
+                });
+
                 const _createUserAnswer = await this.gameService.createBlankTopicUserAnswer({
                         topicId,
                         userId,
+                        gameRoundId,
                         answer,
                 });
                 const { answerCount, unanswerCount } =
@@ -160,10 +174,19 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
         @SubscribeMessage(GameEvent.GET_USERS_ANSWER)
         async onGetUsersAnswer(
                 @ConnectedSocket() client: Socket,
-                @MessageBody() data: { roomId: string },
+                @MessageBody() data: { roomId: string; topicId: number },
         ) {
-                const { roomId } = data;
-                const userAnswerList = await this.gameService.findAllBlankTopicUserAnswer(roomId);
+                const { roomId, topicId } = data;
+                const gameRoundId = await this.gameService.findCurrentGameRound({
+                        roomId,
+                        topicId,
+                });
+
+                const userAnswerList = await this.gameService.findAllBlankTopicUserAnswer({
+                        roomId,
+                        gameRoundId,
+                });
+
                 this.server.to(roomId).emit(GameEvent.GET_USERS_ANSWER, userAnswerList);
         }
 
