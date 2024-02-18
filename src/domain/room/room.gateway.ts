@@ -80,6 +80,24 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
         }
 
+        // 대기실
+        @SubscribeMessage(RoomEvent.UPDATE_STATUS)
+        async onUpdateStatus(
+                @ConnectedSocket() client: Socket,
+                @MessageBody() data: { userId: number; status: string; roomId: string },
+        ) {
+                const { roomId, userId, status } = data;
+
+                const _updateUserRoomStatus = await this.userService.updateUserRoomStatus({
+                        userId,
+                        status,
+                });
+
+                const userList = await this.roomService.findUsersByRoomId(roomId);
+
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+        }
+
         afterInit() {
                 console.log('connected');
         }
