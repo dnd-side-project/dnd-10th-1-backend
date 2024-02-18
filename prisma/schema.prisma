@@ -25,6 +25,7 @@ model User {
   role         Role
   mbti         String?
   mbtiNickname String?
+  status       String?
 
   // Relation - 1 : N 
   BlankTopicResult BlankTopicResult[]
