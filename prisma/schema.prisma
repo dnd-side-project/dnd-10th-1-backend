@@ -29,8 +29,10 @@ model User {
 
   // Relation - 1 : N 
   BlankTopicResult BlankTopicResult[]
-  Room             Room?              @relation(fields: [roomId], references: [id])
-  roomId           String?
+
+  // Relation - N : 1
+  Room   Room?   @relation(fields: [roomId], references: [id])
+  roomId String?
 }
 
 // Table[room] : 방 정보 
@@ -43,7 +45,10 @@ model Room {
 
   // Relation - 1 : 1
   Invite Invite?
-  User   User[]
+
+  // Relation - 1 : N 
+  User      User[]
+  GameRound GameRound[]
 }
 
 // Table[game_category] : 게임 카테고리 
@@ -72,6 +77,7 @@ model GameBlankTopic {
 
   // Relation - 1 : N 
   BlankTopicResult BlankTopicResult[]
+  GameRound        GameRound[]
 }
 
 // Table[game_mbti] : mbti 게임
@@ -118,6 +124,8 @@ model BlankTopicResult {
   gameBlankTopicId Int
   user             User           @relation(fields: [userId], references: [id])
   userId           Int
+  GameRound        GameRound?     @relation(fields: [gameRoundId], references: [id])
+  gameRoundId      Int?
 }
 
 // Table[invite] : 초대 링크 
@@ -142,4 +150,19 @@ model GameTopicGacha {
   // Relation - N : 1
   gameCategory   GameCategory @relation(fields: [gameCategoryId], references: [id])
   gameCategoryId Int
+}
+
+model GameRound {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  // Relation - N : 1
+  room             Room           @relation(fields: [roomId], references: [id])
+  roomId           String
+  gameBlankTopic   GameBlankTopic @relation(fields: [gameBlankTopicId], references: [id])
+  gameBlankTopicId Int
+
+  // Relation - 1 : N
+  BlankTopicResult BlankTopicResult[]
 }
