@@ -25,7 +25,25 @@ export enum RoomEvent {
 
         /**
          * @event room - 대기실 이벤트
-         * @description 대기실의 사용자 상태 정보를 갱신 합니다. ( 대기 / 준비 완료 )
+         * @description 대기실의 사용자 상태 정보를 갱신 합니다. ( 입장/준비 완료/퇴장 )
          * */
         UPDATE_STATUS = 'update-status',
+
+        /**
+         * @event room - 대기실 이벤트
+         * @description * @description 사용자의 대기실 상태 정보를 입장으로 변경 합니다.
+         * */
+        ENTER = 'enter',
+
+        /**
+         * @event room - 대기실 이벤트
+         * @description 사용자의 대기실 상태 정보를 준비완료로 변경 합니다.
+         * */
+        READY = 'READY',
+
+        /**
+         * @event room - 대기실 이벤트
+         * @description 사용자의 대기실 상태 정보를 퇴장으로 변경 합니다.
+         * */
+        EXIT = 'EXIT',
 }
