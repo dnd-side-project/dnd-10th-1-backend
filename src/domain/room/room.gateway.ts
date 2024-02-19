@@ -56,6 +56,29 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
         }
 
+        @SubscribeMessage(RoomEvent.JOIN_ROOM)
+        async onJoinRoom(
+                @ConnectedSocket() client: Socket,
+                @MessageBody() data: { roomId: string; userId: number },
+        ) {
+                const { roomId, userId } = data;
+                const isRoomExist = await this.roomService.checkRoomExist(roomId);
+
+                if (!isRoomExist) return { message: '방이 존재하지 않습니다.' };
+
+                client.join(roomId);
+
+                const _userJoinRoom = await this.roomService.joinRoom({
+                        userId,
+                        roomId,
+                });
+
+                const userList = await this.roomService.findUsersByRoomId(roomId);
+
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
+        }
+
         afterInit() {
                 console.log('connected');
         }

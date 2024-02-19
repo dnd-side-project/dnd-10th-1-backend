@@ -29,4 +29,41 @@ export class RoomService {
 
                 return newRoom.id;
         }
+
+        async joinRoom(data: { userId: number; roomId: string }) {
+                const { userId, roomId } = data;
+
+                await this.userService.updatePermission({
+                        userId,
+                        roomId,
+                        role: Role.Participant,
+                });
+        }
+
+        async findUsersByRoomId(roomId: string) {
+                const userList = await this.prismaService.user.findMany({
+                        select: {
+                                id: true,
+                                displayName: true,
+                                profileImage: true,
+                                role: true,
+                        },
+                        where: {
+                                roomId,
+                        },
+                });
+
+                return userList;
+        }
+
+        async checkRoomExist(roomId: string) {
+                const isRoomExist = await this.prismaService.room.findUnique({
+                        where: {
+                                id: roomId,
+                        },
+                });
+                if (isRoomExist) return true;
+
+                return false;
+        }
 }
