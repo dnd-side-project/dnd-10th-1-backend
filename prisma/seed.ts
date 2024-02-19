@@ -81,13 +81,54 @@ async function main() {
                 data: [
                         { id: 1, gameTitle: '빈칸주제' },
                         { id: 2, gameTitle: 'MBTI 게임' },
+                        { id: 3, gameTitle: '룰렛 게임' },
                 ],
         });
         const game_blank_topic = await prisma.gameBlankTopic.createMany({
                 data: [
                         {
                                 id: 1,
-                                description: '지하철에서 만난 빌런은 ____ 이다.',
+                                description: '지하철에서 만난 빌런은 ____ (이)다.',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 2,
+                                description: '평생 ____ 만 먹기',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 3,
+                                description: '제일 재밌게 본 영화는 ____ (이)다.',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 4,
+                                description: '내가 갔던 최고의 여행지는 ____ (이)다.',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 5,
+                                description: '내가 가장 좋아하는 음악장르는 ____ (이)다.',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 6,
+                                description: '내가 가장 좋아하는 옷 스타일은 ____ (이)다.',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 7,
+                                description: '좋아하는 책 장르는 ____ (이)다.',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 8,
+                                description: '좋아하는 어벤져스 캐릭터는 ____ (이)다.',
+                                gameCategoryId: 1,
+                        },
+                        {
+                                id: 9,
+                                description: '넷플릭스 최애 프로그램은 ____ (이)다.',
                                 gameCategoryId: 1,
                         },
                 ],
@@ -150,9 +191,9 @@ async function main() {
                         {
                                 id: 1,
                                 mbti: 'ISTJ',
-                                mbtiNickname: '신중한 검토자',
+                                mbtiNickname: '매의 눈 사감 선생님',
                                 description: '신중한 검토자는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '엑셀러레이터',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -160,9 +201,9 @@ async function main() {
                         {
                                 id: 2,
                                 mbti: 'ISFJ',
-                                mbtiNickname: '용감한 수호자',
+                                mbtiNickname: '전지적 참견시점 매니저',
                                 description: '용감한 수호자는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: 'EQ 천재 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -170,9 +211,9 @@ async function main() {
                         {
                                 id: 3,
                                 mbti: 'INFJ',
-                                mbtiNickname: '예언자',
+                                mbtiNickname: '샤이한 조력자',
                                 description: '예언자는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '알잘딱깔센 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -180,9 +221,9 @@ async function main() {
                         {
                                 id: 4,
                                 mbti: 'INTJ',
-                                mbtiNickname: '용의주도한 전략가',
+                                mbtiNickname: '철두철미한 셰르파',
                                 description: '용의주도한 전략가는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '브레인 스토머스 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -190,9 +231,9 @@ async function main() {
                         {
                                 id: 5,
                                 mbti: 'ISTP',
-                                mbtiNickname: '만능 재주꾼',
+                                mbtiNickname: '겉바속촉 문제 해결사',
                                 description: '만능 재주꾼는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '만능 일잘러 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -200,9 +241,9 @@ async function main() {
                         {
                                 id: 6,
                                 mbti: 'ISFP',
-                                mbtiNickname: '호기심 많은 예술가',
+                                mbtiNickname: '다양한 시각을 가진 힐러',
                                 description: '호기심 많은 예술가는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '오케스트라 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -210,9 +251,9 @@ async function main() {
                         {
                                 id: 7,
                                 mbti: 'INFP',
-                                mbtiNickname: '열정적인 중재자',
+                                mbtiNickname: '말랑 뽀짝한 중재자',
                                 description: '열정적인 중재자는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '융통성 맥스 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -220,9 +261,9 @@ async function main() {
                         {
                                 id: 8,
                                 mbti: 'INTP',
-                                mbtiNickname: '논리적인 사색가',
+                                mbtiNickname: '전략에 강한 만년 1등',
                                 description: '논리적인 사색가는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '세계 탐험가 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -230,9 +271,9 @@ async function main() {
                         {
                                 id: 9,
                                 mbti: 'ESTP',
-                                mbtiNickname: '모험을 즐기는 사업가',
+                                mbtiNickname: '끝내주는 해결사',
                                 description: '모험을 즐기는 사업가는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '유니콘 스타트업 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -240,9 +281,9 @@ async function main() {
                         {
                                 id: 10,
                                 mbti: 'ESFP',
-                                mbtiNickname: '자유로운 영혼의 연예인',
+                                mbtiNickname: '정신적 지주',
                                 description: '자유로운 영혼의 연예인는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '유토피아 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -250,9 +291,9 @@ async function main() {
                         {
                                 id: 11,
                                 mbti: 'ENFP',
-                                mbtiNickname: '재기발랄한 활동가',
+                                mbtiNickname: '핵인싸 협업 메이트',
                                 description: '재기발랄한 활동가는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '아이디어 뱅크 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -260,9 +301,9 @@ async function main() {
                         {
                                 id: 12,
                                 mbti: 'ENTP',
-                                mbtiNickname: '기민한 변론가',
+                                mbtiNickname: '반박시 니말이 맞음',
                                 description: '기민한 변론가는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '에너자이저 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -270,9 +311,9 @@ async function main() {
                         {
                                 id: 13,
                                 mbti: 'ESTJ',
-                                mbtiNickname: '엄격한 관리자',
+                                mbtiNickname: '만능 스케줄러',
                                 description: '엄격한 관리자는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '불꽃 카리스마 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -280,9 +321,9 @@ async function main() {
                         {
                                 id: 14,
                                 mbti: 'ESFJ',
-                                mbtiNickname: '사교적인 외교관',
+                                mbtiNickname: '빛과 소금같은 존재',
                                 description: '사교적인 외교관는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '유재석 분신술 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -290,9 +331,9 @@ async function main() {
                         {
                                 id: 15,
                                 mbti: 'ENFJ',
-                                mbtiNickname: '정의로운 사회운동가',
+                                mbtiNickname: '마더 테레사',
                                 description: '정의로운 사회운동가는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '이노베이션 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -300,9 +341,9 @@ async function main() {
                         {
                                 id: 16,
                                 mbti: 'ENTJ',
-                                mbtiNickname: '대담한 통솔자',
+                                mbtiNickname: '확신의 리더상',
                                 description: '대담한 통솔자는 ~ 한 상황에서 ~ 합니다.',
-                                teamMbti: '우리팀은 알잘딱깔센 팀',
+                                teamMbti: '어벤져스 조합',
                                 mbtiImage: 'https://naver.com',
                                 teamMbtiImage: 'https://naver.com',
                                 gameCategoryId: 2,
@@ -342,6 +383,22 @@ async function main() {
                         { id: 29, matchingMbti: 'INFP ', gameMbtiId: 15 }, // ENFJ
                         { id: 30, matchingMbti: 'INTP ', gameMbtiId: 16 }, // ENTJ
                         { id: 31, matchingMbti: 'INFP ', gameMbtiId: 16 }, // ENTJ
+                ],
+        });
+        const game_topic_gacha = await prisma.gameTopicGacha.createMany({
+                data: [
+                        { id: 1, description: '어떤 음식을 제일 좋아하나요?', gameCategoryId: 3 },
+                        {
+                                id: 2,
+                                description: '어떤 영화를 제일 재밌게 봤나요?',
+                                gameCategoryId: 3,
+                        },
+                        { id: 3, description: '내가 좋아하는 음악 장르는?', gameCategoryId: 3 },
+                        { id: 4, description: '산 vs 바다', gameCategoryId: 3 },
+                        { id: 5, description: '탕수육 찍먹 vs 부먹', gameCategoryId: 3 },
+                        { id: 6, description: '평생 여름 vs 겨울', gameCategoryId: 3 },
+                        { id: 7, description: '단톡방 고백 vs 길거리 고백', gameCategoryId: 3 },
+                        { id: 8, description: '월 200 백수 vs 월 500 직장인', gameCategoryId: 3 },
                 ],
         });
 }
