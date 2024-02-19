@@ -92,14 +92,56 @@ async function main() {
                         },
                 ],
         });
+        const game_round = await prisma.gameRound.create({
+                data: {
+                        roomId: 'DNNV215SV',
+                        gameBlankTopicId: 1,
+                },
+        });
         const blank_topic_result = await prisma.blankTopicResult.createMany({
                 data: [
-                        { id: 1, answer: '단소 빌런', gameBlankTopicId: 1, userId: 1 },
-                        { id: 2, answer: '트로트 신사', gameBlankTopicId: 1, userId: 2 },
-                        { id: 3, answer: '자르반 할아버지', gameBlankTopicId: 1, userId: 3 },
-                        { id: 4, answer: '미스터 초밥왕', gameBlankTopicId: 1, userId: 4 },
-                        { id: 5, answer: '태권도 할아버지', gameBlankTopicId: 1, userId: 5 },
-                        { id: 6, answer: '스파이더맨', gameBlankTopicId: 1, userId: 6 },
+                        {
+                                id: 1,
+                                answer: '단소 빌런',
+                                gameBlankTopicId: 1,
+                                userId: 1,
+                                gameRoundId: 1,
+                        },
+                        {
+                                id: 2,
+                                answer: '트로트 신사',
+                                gameBlankTopicId: 1,
+                                userId: 2,
+                                gameRoundId: 1,
+                        },
+                        {
+                                id: 3,
+                                answer: '자르반 할아버지',
+                                gameBlankTopicId: 1,
+                                userId: 3,
+                                gameRoundId: 1,
+                        },
+                        {
+                                id: 4,
+                                answer: '미스터 초밥왕',
+                                gameBlankTopicId: 1,
+                                userId: 4,
+                                gameRoundId: 1,
+                        },
+                        {
+                                id: 5,
+                                answer: '태권도 할아버지',
+                                gameBlankTopicId: 1,
+                                userId: 5,
+                                gameRoundId: 1,
+                        },
+                        {
+                                id: 6,
+                                answer: '스파이더맨',
+                                gameBlankTopicId: 1,
+                                userId: 6,
+                                gameRoundId: 1,
+                        },
                 ],
         });
 
