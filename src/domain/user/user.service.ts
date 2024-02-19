@@ -90,4 +90,27 @@ export class UserService {
 
                 return;
         }
+
+        async setUserProfile(nickName: string, profileImage: string, roomId: string) {
+                let user;
+                if (roomId === '') {
+                        user = await this.prismaService.user.create({
+                                data: {
+                                        displayName: nickName,
+                                        profileImage: profileImage,
+                                        role: 'Owner',
+                                },
+                        });
+                } else {
+                        user = await this.prismaService.user.create({
+                                data: {
+                                        displayName: nickName,
+                                        profileImage: profileImage,
+                                        role: 'Participant',
+                                },
+                        });
+                }
+
+                return user;
+        }
 }
