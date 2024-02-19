@@ -34,4 +34,28 @@ export class UserService {
 
                 return;
         }
+
+        async updateMbti(data: { userId: number; mbti: string }) {
+                const { userId, mbti } = data;
+
+                const _updateUserMbti = await this.prismaService.user.update({
+                        where: {
+                                id: Number(userId),
+                        },
+                        data: {
+                                mbti,
+                        },
+                });
+
+                return;
+        }
+
+        async countMbtiByRoomId(roomId: string) {
+                const userMbtiNullCount = await this.prismaService.user.count({
+                        where: { roomId, mbti: null },
+                });
+                console.log(userMbtiNullCount);
+
+                return userMbtiNullCount;
+        }
 }
