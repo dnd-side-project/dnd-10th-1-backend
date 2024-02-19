@@ -7,14 +7,15 @@ CREATE TABLE `User` (
     `profileImage` VARCHAR(191) NOT NULL,
     `role` ENUM('Owner', 'Participant') NOT NULL,
     `mbti` VARCHAR(191) NULL,
-    `roomId` INTEGER NOT NULL,
+    `mbtiNickname` VARCHAR(191) NULL,
+    `roomId` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `Room` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `id` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
@@ -50,9 +51,12 @@ CREATE TABLE `GameMbti` (
     `mbtiNickname` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `mbti` VARCHAR(191) NOT NULL,
+    `mbtiImage` VARCHAR(191) NOT NULL,
     `teamMbti` VARCHAR(191) NOT NULL,
+    `teamMbtiImage` VARCHAR(191) NOT NULL,
     `gameCategoryId` INTEGER NOT NULL,
 
+    UNIQUE INDEX `GameMbti_mbti_key`(`mbti`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -61,7 +65,7 @@ CREATE TABLE `MbtiMatching` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `mbti` VARCHAR(191) NOT NULL,
+    `matchingMbti` VARCHAR(191) NOT NULL,
     `gameMbtiId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -85,14 +89,25 @@ CREATE TABLE `Invite` (
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `url` VARCHAR(191) NOT NULL,
-    `roomId` INTEGER NOT NULL,
+    `roomId` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Invite_roomId_key`(`roomId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `GameTopicGacha` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `description` VARCHAR(191) NOT NULL,
+    `gameCategoryId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
-ALTER TABLE `User` ADD CONSTRAINT `User_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `User` ADD CONSTRAINT `User_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `GameBlankTopic` ADD CONSTRAINT `GameBlankTopic_gameCategoryId_fkey` FOREIGN KEY (`gameCategoryId`) REFERENCES `GameCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -111,3 +126,6 @@ ALTER TABLE `BlankTopicResult` ADD CONSTRAINT `BlankTopicResult_userId_fkey` FOR
 
 -- AddForeignKey
 ALTER TABLE `Invite` ADD CONSTRAINT `Invite_roomId_fkey` FOREIGN KEY (`roomId`) REFERENCES `Room`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `GameTopicGacha` ADD CONSTRAINT `GameTopicGacha_gameCategoryId_fkey` FOREIGN KEY (`gameCategoryId`) REFERENCES `GameCategory`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
