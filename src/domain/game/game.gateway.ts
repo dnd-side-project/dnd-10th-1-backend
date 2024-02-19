@@ -15,6 +15,9 @@ import { GameEvent } from './types/events';
 import console from 'console';
 import { generateRandomNumber } from '@/common/utils';
 import { UserService } from '../user/user.service';
+import { Role } from '@prisma/client';
+import { RoomEvent } from '../room/types/events';
+import { RoomService } from '../room/room.service';
 
 @WebSocketGateway({
         namespace: '/game',
@@ -28,6 +31,7 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
 
         constructor(
                 private userService: UserService,
+                private roomService: RoomService,
                 private gameService: GameService,
         ) {}
 
@@ -61,9 +65,43 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME);
         }
 
-        // // game - 게임 종료
-        // @SubscribeMessage(GameEvent.END_GAME)
-        // async onEndGame(@ConnectedSocket() client: Socket, @MessageBody() data: any) {}
+        // game - 게임 종료
+        @SubscribeMessage(GameEvent.END_GAME)
+        async onEndGame(
+                @ConnectedSocket() client: Socket,
+                @MessageBody() data: { roomId: string; userId: number },
+        ) {
+                const { roomId, userId } = data;
+                const { role: userRole } = await this.userService.findOneById(userId);
+                const roomUserList = await this.roomService.findUsersByRoomId(roomId);
+                const roomUserIdList = roomUserList.map((user) => user.id);
+
+                // 방장이 나간 경우 방 폭파
+                if (Role.Owner === userRole) {
+                        const _updateUsersRoomStatus = await this.userService.updateUsersRoomStatus(
+                                {
+                                        userId: roomUserIdList,
+                                        status: RoomEvent.EXIT,
+                                },
+                        );
+
+                        this.server.in(roomId).socketsLeave(roomId);
+                        this.server.in(roomId).disconnectSockets(true);
+                        return;
+                }
+
+                // 참여자가 나간 경우
+                client.leave(roomId);
+
+                const _updateUserRoomStatus = await this.userService.updateUserRoomStatus({
+                        userId: userId,
+                        status: RoomEvent.EXIT,
+                });
+
+                const userList = roomUserList.filter((user) => user.id != userId);
+
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+        }
 
         // game[mbti] - 사용자 mbti 선택
         @SubscribeMessage(GameEvent.SELECT_MBTI)

@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
 import { UserService } from '../user/user.service';
 import { randomUUID } from 'crypto';
+import { RoomEvent } from './types/events';
 
 @Injectable()
 export class RoomService {
@@ -28,7 +29,7 @@ export class RoomService {
 
                 await this.userService.updateUserRoomStatus({
                         userId: ownerId,
-                        status: 'enter',
+                        status: RoomEvent.ENTER,
                 });
 
                 return newRoom.id;
@@ -45,7 +46,7 @@ export class RoomService {
 
                 await this.userService.updateUserRoomStatus({
                         userId,
-                        status: 'enter',
+                        status: RoomEvent.ENTER,
                 });
         }
 

@@ -63,9 +63,26 @@ export class UserService {
         async updateUserRoomStatus(data: { userId: number; status: string }) {
                 const { userId, status } = data;
 
-                const _updateUserRoomStatus = await this.prismaService.user.update({
+                const _updateUserRoomStatus = await this.prismaService.user.updateMany({
                         where: {
                                 id: userId,
+                        },
+                        data: {
+                                status,
+                        },
+                });
+
+                return;
+        }
+
+        async updateUsersRoomStatus(data: { userId: number[]; status: string }) {
+                const { userId, status } = data;
+
+                const _updateUsersRoomStatus = await this.prismaService.user.updateMany({
+                        where: {
+                                id: {
+                                        in: userId,
+                                },
                         },
                         data: {
                                 status,
