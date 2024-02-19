@@ -13,6 +13,7 @@ export class UserService {
                                 displayName: true,
                                 profileImage: true,
                                 role: true,
+                                status: true,
                         },
                         where: { id },
                 });
@@ -57,5 +58,20 @@ export class UserService {
                 console.log(userMbtiNullCount);
 
                 return userMbtiNullCount;
+        }
+
+        async updateUserRoomStatus(data: { userId: number; status: string }) {
+                const { userId, status } = data;
+
+                const _updateUserRoomStatus = await this.prismaService.user.update({
+                        where: {
+                                id: userId,
+                        },
+                        data: {
+                                status,
+                        },
+                });
+
+                return;
         }
 }
