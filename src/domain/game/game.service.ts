@@ -98,7 +98,6 @@ export class GameService {
                         data: {
                                 roomId,
                                 gameBlankTopicId: topicId,
-                                status: 'InProgress',
                         },
                 });
                 return;
