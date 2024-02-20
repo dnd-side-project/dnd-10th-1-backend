@@ -10,6 +10,7 @@ import { GameMbtiModule } from './domain/game-mbti/game-mbti.module';
 import { RoomModule } from './domain/room/room.module';
 import { UserModule } from './domain/user/user.module';
 import { GameModule } from './domain/game/game.module';
+import { UserController } from './domain/user/user.controller';
 
 @Module({
         imports: [
@@ -20,7 +21,7 @@ import { GameModule } from './domain/game/game.module';
                 UserModule,
                 GameModule,
         ],
-        controllers: [],
+        controllers: [UserController],
         providers: [
                 {
                         provide: APP_INTERCEPTOR,
