@@ -51,6 +51,7 @@ export class ExpressServer {
 
         public async setup() {
                 this.app = await NestFactory.create<NestExpressApplication>(AppModule, {
+                        cors: true,
                         // custom logger 전역 설정
                         logger: WinstonModule.createLogger({
                                 transports: [
