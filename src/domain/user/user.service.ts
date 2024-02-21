@@ -107,6 +107,7 @@ export class UserService {
                                         displayName: nickName,
                                         profileImage: profileImage,
                                         role: 'Participant',
+                                        roomId: roomId,
                                 },
                         });
                 }
