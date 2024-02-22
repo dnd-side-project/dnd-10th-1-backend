@@ -65,7 +65,12 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const { roomId, userId } = data;
                 const isRoomExist = await this.roomService.checkRoomExist(roomId);
 
-                if (!isRoomExist) return { message: '방이 존재하지 않습니다.' };
+                if (!isRoomExist) {
+                        client.emit(RoomEvent.MOVE_TO_WAITING_ROOM, {
+                                code: 400,
+                                message: '방이 존재하지 않습니다.',
+                        });
+                }
 
                 client.join(roomId);
 
