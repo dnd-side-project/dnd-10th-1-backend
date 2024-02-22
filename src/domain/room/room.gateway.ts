@@ -52,7 +52,7 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         },
                 ];
 
-                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
                 client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
         }
 
@@ -76,7 +76,7 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
 
                 const userList = await this.roomService.findUsersByRoomId(roomId);
 
-                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
                 client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
         }
 
@@ -95,7 +95,7 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
 
                 const userList = await this.roomService.findUsersByRoomId(roomId);
 
-                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
         }
 
         afterInit() {
