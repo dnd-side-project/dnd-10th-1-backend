@@ -20,7 +20,7 @@ import { RoomEvent } from '../room/types/events';
 import { RoomService } from '../room/room.service';
 
 @WebSocketGateway({
-        namespace: '/game',
+        namespace: '/',
         cors: {
                 origin: '*',
         },

@@ -16,7 +16,7 @@ import { RoomService } from './room.service';
 import { UserService } from '../user/user.service';
 
 @WebSocketGateway({
-        namespace: '/room',
+        namespace: '/',
         cors: {
                 origin: '*',
         },
