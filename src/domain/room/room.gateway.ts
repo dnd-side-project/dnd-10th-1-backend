@@ -53,7 +53,7 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 ];
 
                 this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
-                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
+                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM, roomId);
         }
 
         // 방 참여
@@ -77,7 +77,7 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const userList = await this.roomService.findUsersByRoomId(roomId);
 
                 this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
-                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
+                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM, roomId);
         }
 
         // 대기실
