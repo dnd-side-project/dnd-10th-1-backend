@@ -98,6 +98,18 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
         }
 
+        // 대기실 유저 목록 조회
+        @SubscribeMessage(RoomEvent.LISTEN_ROOM_USER_LIST)
+        async onListenRoomUserList(
+                @ConnectedSocket() client: Socket,
+                @MessageBody() data: { roomId: string },
+        ) {
+                const { roomId } = data;
+                const userList = await this.roomService.findUsersByRoomId(roomId);
+
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
+        }
+
         afterInit() {
                 console.log('connected');
         }
