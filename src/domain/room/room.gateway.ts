@@ -16,7 +16,7 @@ import { RoomService } from './room.service';
 import { UserService } from '../user/user.service';
 
 @WebSocketGateway({
-        namespace: '/room',
+        namespace: '/',
         cors: {
                 origin: '*',
         },
@@ -53,7 +53,7 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 ];
 
                 this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
-                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
+                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM, roomId);
         }
 
         // 방 참여
@@ -65,7 +65,12 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const { roomId, userId } = data;
                 const isRoomExist = await this.roomService.checkRoomExist(roomId);
 
-                if (!isRoomExist) return { message: '방이 존재하지 않습니다.' };
+                if (!isRoomExist) {
+                        client.emit(RoomEvent.MOVE_TO_WAITING_ROOM, {
+                                code: 400,
+                                message: '방이 존재하지 않습니다.',
+                        });
+                }
 
                 client.join(roomId);
 
@@ -77,7 +82,7 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const userList = await this.roomService.findUsersByRoomId(roomId);
 
                 this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
-                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM);
+                client.emit(RoomEvent.MOVE_TO_WAITING_ROOM, roomId);
         }
 
         // 대기실
@@ -93,6 +98,18 @@ export class RoomEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         status,
                 });
 
+                const userList = await this.roomService.findUsersByRoomId(roomId);
+
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
+        }
+
+        // 대기실 유저 목록 조회
+        @SubscribeMessage(RoomEvent.LISTEN_ROOM_USER_LIST)
+        async onListenRoomUserList(
+                @ConnectedSocket() client: Socket,
+                @MessageBody() data: { roomId: string },
+        ) {
+                const { roomId } = data;
                 const userList = await this.roomService.findUsersByRoomId(roomId);
 
                 this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
