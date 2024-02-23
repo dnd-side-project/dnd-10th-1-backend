@@ -49,7 +49,6 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
         }
 
         // // game - 게임 시작
-        // NOTE : 빈칸주제 게임인 경우만 사용
         @SubscribeMessage(GameEvent.START_GAME)
         async onStartGame(
                 @ConnectedSocket() client: Socket,
@@ -69,7 +68,11 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
 
                         const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
                         this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo });
-                        // this.server.to(roomId).emit(GameEvent.GET_GAME_ITEM, gameInfo);
+                }
+                // MBTI 게임
+                else if (gameId == 2) {
+                        const gameInfo = null;
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo });
                 }
         }
 
