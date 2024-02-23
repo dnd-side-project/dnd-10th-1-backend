@@ -68,9 +68,13 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         });
 
                         const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
-                        const totalCount = await this.roomService;
+                        const userList = await this.roomService.findUsersByRoomId(roomId);
 
-                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo });
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, {
+                                gameId,
+                                gameInfo,
+                                totalCount: userList.length,
+                        });
                         // this.server.to(roomId).emit(GameEvent.GET_GAME_ITEM, gameInfo);
                 }
         }
