@@ -93,10 +93,9 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                                 },
                         );
 
-                        // this.server.in(roomId).socketsLeave(roomId);
-                        this.server.in(roomId).disconnectSockets(true);
-
-                        this.server.to(roomId).emit(RoomEvent.DISCONNECT_ALL_SOCKET);
+                        this.server.to(roomId).emit(RoomEvent.LEAVE_ALL_SOCKET);
+                        this.server.in(roomId).socketsLeave(roomId);
+                        // this.server.in(roomId).disconnectSockets(true);
 
                         return;
                 }
