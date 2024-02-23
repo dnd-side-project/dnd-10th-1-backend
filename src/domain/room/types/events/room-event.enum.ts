@@ -27,7 +27,7 @@ export enum RoomEvent {
          * @event room - 방 폭파 이벤트
          * @description 방장이 퇴장하면서 개설했던 방이 폭파됩니다. 방에 속했던 유저들은 모두 소켓이 끊어집니다.
          * */
-        DISCONNECT_ALL_SOCKET = 'disconnect-all-socket',
+        LEAVE_ALL_USER_FROM_ROOM = 'leave-all-user-from-room',
 
         /**
          * @event room - 대기실 이벤트
