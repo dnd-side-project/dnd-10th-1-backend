@@ -21,11 +21,11 @@ export class UserService {
         }
 
         async updatePermission(data: { userId: number; roomId: string; role: Role }) {
-                const { userId, roomId } = data;
+                const { userId, roomId, role } = data;
 
                 const _updateUserPermission = await this.prismaService.user.update({
                         data: {
-                                role: Role.Owner,
+                                role: role,
                                 roomId: roomId,
                         },
                         where: {
