@@ -88,47 +88,42 @@ async function main() {
                 data: [
                         {
                                 id: 1,
-                                description: '지하철에서 만난 빌런은 ____ (이)다.',
+                                description: '지하철에서 만난 최고 빌런은',
                                 gameCategoryId: 1,
                         },
                         {
                                 id: 2,
-                                description: '평생 ____ 만 먹기',
+                                description: '제일 재밌게 본 영화는',
                                 gameCategoryId: 1,
                         },
                         {
                                 id: 3,
-                                description: '제일 재밌게 본 영화는 ____ (이)다.',
+                                description: '내가 갔던 최고의 여행지는',
                                 gameCategoryId: 1,
                         },
                         {
                                 id: 4,
-                                description: '내가 갔던 최고의 여행지는 ____ (이)다.',
+                                description: '내가 가장 좋아하는 음악장르는',
                                 gameCategoryId: 1,
                         },
                         {
                                 id: 5,
-                                description: '내가 가장 좋아하는 음악장르는 ____ (이)다.',
+                                description: '내가 가장 좋아하는 옷 스타일은',
                                 gameCategoryId: 1,
                         },
                         {
                                 id: 6,
-                                description: '내가 가장 좋아하는 옷 스타일은 ____ (이)다.',
+                                description: '좋아하는 책 장르는',
                                 gameCategoryId: 1,
                         },
                         {
                                 id: 7,
-                                description: '좋아하는 책 장르는 ____ (이)다.',
+                                description: '좋아하는 어벤져스 캐릭터는',
                                 gameCategoryId: 1,
                         },
                         {
                                 id: 8,
-                                description: '좋아하는 어벤져스 캐릭터는 ____ (이)다.',
-                                gameCategoryId: 1,
-                        },
-                        {
-                                id: 9,
-                                description: '넷플릭스 최애 프로그램은 ____ (이)다.',
+                                description: '넷플릭스 최애 프로그램은',
                                 gameCategoryId: 1,
                         },
                 ],
