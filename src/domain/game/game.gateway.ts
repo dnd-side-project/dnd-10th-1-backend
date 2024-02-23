@@ -98,13 +98,11 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
 
                         this.server.to(roomId).emit(RoomEvent.LEAVE_ALL_USER_FROM_ROOM);
                         this.server.in(roomId).socketsLeave(roomId);
-                        // this.server.in(roomId).disconnectSockets(true);
 
                         return;
                 }
 
                 // 참여자가 나간 경우
-                client.leave(roomId);
 
                 const _updateUserRoomStatus = await this.userService.updateUserRoomStatus({
                         userId: userId,
@@ -114,6 +112,8 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const userList = roomUserList.filter((user) => user.id != userId);
 
                 this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+
+                client.leave(roomId);
         }
 
         // game[mbti] - 사용자 mbti 선택
