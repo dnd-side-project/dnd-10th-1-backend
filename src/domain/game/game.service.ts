@@ -50,30 +50,38 @@ export class GameService {
                 });
         }
 
-        async countBlankTopicAnswer(roomId: string) {
-                const answerCountList = await this.prismaService.user.findMany({
+        async countBlankTopicAnswer(data: { roomId: string; gameRoundId: number }) {
+                const { roomId, gameRoundId } = data;
+
+                const userIdList = await this.prismaService.user.findMany({
+                        select: { id: true },
+                        where: {
+                                roomId,
+                        },
+                });
+
+                const userIds = userIdList.map((user) => user.id);
+
+                const answerList = await this.prismaService.blankTopicResult.findMany({
                         select: {
-                                _count: {
-                                        select: {
-                                                BlankTopicResult: true,
-                                        },
+                                id: true,
+                                answer: true,
+                        },
+                        where: {
+                                userId: {
+                                        in: userIds,
                                 },
+                                gameRoundId,
                         },
+                });
+
+                const totalUserCount = await this.prismaService.user.count({
                         where: {
                                 roomId,
                         },
                 });
-                const answerCount = answerCountList[0]._count.BlankTopicResult;
 
-                const roomUsers = await this.prismaService.user.count({
-                        where: {
-                                roomId,
-                        },
-                });
-
-                const unanswerCount = roomUsers - answerCount;
-
-                return { answerCount, unanswerCount };
+                return { answerCount: answerList.length, totalCount: totalUserCount };
         }
         async findAllBlankTopicUserAnswer(data: { roomId: string; gameRoundId: number }) {
                 const { roomId, gameRoundId } = data;

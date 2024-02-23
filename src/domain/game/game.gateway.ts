@@ -67,12 +67,15 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         });
 
                         const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
-                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo });
+                        const userList = await this.roomService.findUsersByRoomId(roomId);
+                        const totalCount = userList.length
+                        
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo, totalCount });
                 }
                 // MBTI 게임
                 else if (gameId == 2) {
                         const gameInfo = null;
-                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo });
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo, totalCount });
                 }
         }
 
@@ -162,14 +165,18 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         gameRoundId,
                         answer,
                 });
-                const { answerCount, unanswerCount } =
-                        await this.gameService.countBlankTopicAnswer(roomId);
 
-                this.server
-                        .to(roomId)
-                        .emit(GameEvent.LISTEN_LIVE_USER_COUNT, { answerCount, unanswerCount });
+                const { answerCount, totalCount } = await this.gameService.countBlankTopicAnswer({
+                        roomId,
+                        gameRoundId,
+                });
 
-                if (unanswerCount === 0) {
+                this.server.to(roomId).emit(GameEvent.LISTEN_LIVE_USER_COUNT, {
+                        answerCount,
+                        totalCount,
+                });
+
+                if (answerCount >= totalCount) {
                         this.server.to(roomId).emit(GameEvent.MOVE_TO_BLANK_TOPIC_RESULT);
                 }
         }
