@@ -64,7 +64,10 @@ export class RoomService {
                         },
                 });
 
-                return userList;
+                const owners = userList.filter((user) => user.role === Role.Owner);
+                const participants = userList.filter((user) => user.role === Role.Participant);
+
+                return owners.concat(participants);
         }
 
         async checkRoomExist(roomId: string) {
