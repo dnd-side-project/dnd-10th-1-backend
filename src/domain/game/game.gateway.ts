@@ -68,10 +68,9 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         });
 
                         const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
-                        this.server.to(roomId).emit(GameEvent.GET_GAME_ITEM, gameInfo);
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo });
+                        // this.server.to(roomId).emit(GameEvent.GET_GAME_ITEM, gameInfo);
                 }
-
-                this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME);
         }
 
         // game - 게임 종료
@@ -94,8 +93,11 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                                 },
                         );
 
-                        this.server.in(roomId).socketsLeave(roomId);
+                        // this.server.in(roomId).socketsLeave(roomId);
                         this.server.in(roomId).disconnectSockets(true);
+
+                        this.server.to(roomId).emit(RoomEvent.DISCONNECT_ALL_SOCKET);
+
                         return;
                 }
 
