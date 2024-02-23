@@ -24,6 +24,12 @@ export enum RoomEvent {
         JOIN_ROOM = 'join-room',
 
         /**
+         * @event room - 방 폭파 이벤트
+         * @description 방장이 퇴장하면서 개설했던 방이 폭파됩니다. 방에 속했던 유저들은 모두 소켓이 끊어집니다.
+         * */
+        DISCONNECT_ALL_SOCKET = 'disconnect-all-socket',
+
+        /**
          * @event room - 대기실 이벤트
          * @description 대기실의 사용자 상태 정보를 갱신 합니다. ( 입장/준비 완료/퇴장 )
          * */
