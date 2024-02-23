@@ -111,7 +111,7 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
 
                 const userList = roomUserList.filter((user) => user.id != userId);
 
-                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, userList);
+                this.server.to(roomId).emit(RoomEvent.LISTEN_ROOM_USER_LIST, { userList, roomId });
 
                 client.leave(roomId);
         }
