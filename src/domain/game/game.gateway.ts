@@ -67,18 +67,25 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                                 roomId,
                                 topicId: randomNum,
                         });
-                        const gameInfo = await this.gameService.findOneBlankTopic(randomNum);
-
-                        this.server
-                                .to(roomId)
-                                .emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo, totalCount });
+                        const blankTopic = await this.gameService.findOneBlankTopic(randomNum);
+                        const gameInfo = {
+                                totalCount,
+                                ...blankTopic,
+                        };
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, {
+                                gameId,
+                                gameInfo,
+                        });
                 }
                 // MBTI 게임
                 else if (gameId == 2) {
-                        const gameInfo = null;
-                        this.server
-                                .to(roomId)
-                                .emit(GameEvent.MOVE_TO_GAME, { gameId, gameInfo, totalCount });
+                        const gameInfo = {
+                                totalCount,
+                        };
+                        this.server.to(roomId).emit(GameEvent.MOVE_TO_GAME, {
+                                gameId,
+                                gameInfo,
+                        });
                 }
         }
 
