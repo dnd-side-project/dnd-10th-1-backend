@@ -200,7 +200,25 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         roomId,
                         gameRoundId,
                 });
+                const userIds = userAnswerList.map((user) => user.userId);
+                const randomIndex = Math.floor(Math.random() * userIds.length);
+                const randomUserId = userIds[randomIndex];
+                const { displayName, profileImage } =
+                        await this.userService.findOneById(randomUserId);
+                const selectAnswer =
+                        await this.gameService.findAllBlankTopicOneUserAnswer(randomUserId);
+                const topic = await this.gameService.findOneBlankTopic(topicId);
 
+                const selectInfo = {
+                        userInfo: {
+                                nickName: displayName,
+                                profileImage,
+                        },
+                        selectAnswer,
+                        topic,
+                };
+
+                this.server.to(roomId).emit(GameEvent.GET_SMALL_TALK_RANDOM_ANSWER, selectInfo);
                 this.server.to(roomId).emit(GameEvent.GET_USERS_ANSWER, userAnswerList);
         }
 

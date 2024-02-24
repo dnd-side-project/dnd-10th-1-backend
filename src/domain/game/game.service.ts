@@ -100,6 +100,20 @@ export class GameService {
 
                 return userAnswerList;
         }
+
+        async findAllBlankTopicOneUserAnswer(userId: number) {
+                const userAnswerList = await this.prismaService.blankTopicResult.findMany({
+                        select: {
+                                answer: true,
+                        },
+                        where: {
+                                userId: userId,
+                        },
+                });
+
+                return userAnswerList;
+        }
+
         async createGameBlankTopicRound(data: { roomId: string; topicId: number }) {
                 const { roomId, topicId } = data;
                 const _createGameRound = await this.prismaService.gameRound.create({
