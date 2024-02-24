@@ -38,6 +38,10 @@ export class UserService {
 
         async updateMbti(data: { userId: number; mbti: string }) {
                 const { userId, mbti } = data;
+                const mbtiNickname = await this.prismaService.gameMbti.findUnique({
+                        select: { mbtiNickname: true },
+                        where: { mbti: mbti },
+                });
 
                 const _updateUserMbti = await this.prismaService.user.update({
                         where: {
@@ -45,6 +49,7 @@ export class UserService {
                         },
                         data: {
                                 mbti,
+                                mbtiNickname: mbtiNickname.mbtiNickname,
                         },
                 });
 
