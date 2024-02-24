@@ -51,7 +51,7 @@ export class GameMbtiService {
                 };
         }
 
-        setTeamMbti(teamMbtiList: string[]): string {
+        async setTeamMbti(teamMbtiList: string[]): Promise<string> {
                 let count: Record<string, number> = {};
                 let result = '';
 
@@ -79,7 +79,7 @@ export class GameMbtiService {
                         where: { roomId: roomId },
                 });
                 const mbtiList = members.map((value) => value.mbti);
-                const teamMbti = this.setTeamMbti(mbtiList);
+                const teamMbti = await this.setTeamMbti(mbtiList);
                 const teamMbtiResult = await this.prismaService.gameMbti.findUnique({
                         select: { teamMbti: true },
                         where: { mbti: teamMbti },

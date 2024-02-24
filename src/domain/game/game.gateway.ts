@@ -140,14 +140,14 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const _updateUserMbti = await this.userService.updateMbti({ userId, mbti });
                 const mbtiNullCount = await this.userService.countMbtiByRoomId(roomId);
 
+                // 유저별 로딩 페이지 이동
+                client.emit(GameEvent.MOVE_TO_MBTI_LOADING);
+
                 // 모든 유저 제출 완료시 결과 이벤트 전송
                 if (mbtiNullCount === 0) {
                         this.server.to(roomId).emit(GameEvent.MOVE_TO_MBTI_RESULT);
                         return;
                 }
-
-                // 유저별 로딩 페이지 이동
-                client.emit(GameEvent.MOVE_TO_MBTI_LOADING);
         }
 
         // game[빈칸주제] - 게임시작

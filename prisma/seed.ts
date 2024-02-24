@@ -12,7 +12,7 @@ const prisma = new PrismaClient({
 async function main() {
         const room = await prisma.room.create({
                 data: {
-                        id: 'DNNV215SV',
+                        id: 'FOWM23901BS',
                         createdAt: new Date(),
                         updatedAt: new Date(),
                 },
@@ -21,8 +21,9 @@ async function main() {
                 data: {
                         id: 1,
                         createdAt: new Date(),
+                        updatedAt: new Date(),
                         url: 'https://example.com',
-                        roomId: 'DNNV215SV',
+                        roomId: 'FOWM23901BS',
                 },
         });
         const user = await prisma.user.createMany({
@@ -33,7 +34,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ISTJ',
-                                roomId: 'DNNV215SV',
+                                roomId: 'FOWM23901BS',
                         },
                         {
                                 id: 2,
@@ -41,7 +42,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ISFJ',
-                                roomId: 'DNNV215SV',
+                                roomId: 'FOWM23901BS',
                         },
                         {
                                 id: 3,
@@ -49,7 +50,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ISFP',
-                                roomId: 'DNNV215SV',
+                                roomId: 'FOWM23901BS',
                         },
                         {
                                 id: 4,
@@ -57,7 +58,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ENFP',
-                                roomId: 'DNNV215SV',
+                                roomId: 'FOWM23901BS',
                         },
                         {
                                 id: 5,
@@ -65,7 +66,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ENFJ',
-                                roomId: 'DNNV215SV',
+                                roomId: 'FOWM23901BS',
                         },
                         {
                                 id: 6,
@@ -73,7 +74,7 @@ async function main() {
                                 profileImage: 'https://naver.com',
                                 role: Role.Owner,
                                 mbti: 'ENTP',
-                                roomId: 'DNNV215SV',
+                                roomId: 'FOWM23901BS',
                         },
                 ],
         });
@@ -130,7 +131,7 @@ async function main() {
         });
         const game_round = await prisma.gameRound.create({
                 data: {
-                        roomId: 'DNNV215SV',
+                        roomId: 'FOWM23901BS',
                         gameBlankTopicId: 1,
                 },
         });
