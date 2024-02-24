@@ -211,6 +211,36 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 this.server.to(roomId).emit(GameEvent.GET_USERS_ANSWER, userAnswerList);
         }
 
+        // 빈칸주제 랜덤결과 조회
+        @SubscribeMessage(GameEvent.GET_SMALL_TALK_RANDOM_ANSWER)
+        async onGetSmallTalkRandomAnswer(
+                @MessageBody() data: { userAnswerList: string[]; topicId: number; roomId: string },
+        ) {
+                const { userAnswerList, topicId, roomId } = data;
+                // const userIds = userAnswerList.map((user) => user.userId);
+                // const randomIndex = Math.floor(Math.random() * userIds.length);
+                // const randomUserId = userIds[randomIndex];
+
+                const randomIndex = Math.floor(Math.random() * userAnswerList.length);
+                const randomUserId = Number(userAnswerList[randomIndex]);
+                const { displayName, profileImage } =
+                        await this.userService.findOneById(randomUserId);
+                const selectAnswer =
+                        await this.gameService.findAllBlankTopicOneUserAnswer(randomUserId);
+                const topic = await this.gameService.findOneBlankTopic(topicId);
+
+                const selectInfo = {
+                        userInfo: {
+                                nickName: displayName,
+                                profileImage,
+                        },
+                        selectAnswer,
+                        topic,
+                };
+
+                this.server.to(roomId).emit(GameEvent.GET_SMALL_TALK_RANDOM_ANSWER, selectInfo);
+        }
+
         afterInit() {
                 console.log('connected');
         }

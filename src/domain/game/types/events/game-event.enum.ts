@@ -83,4 +83,6 @@ export enum GameEvent {
          * @description 빈칸주제 게임의 결과를 조회 합니다.
          * */
         GET_USERS_ANSWER = 'get-users-answer',
+
+        GET_SMALL_TALK_RANDOM_ANSWER = 'get-small-talk-random-answer',
 }
