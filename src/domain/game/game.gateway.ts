@@ -232,6 +232,7 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 };
 
                 this.server.to(roomId).emit(GameEvent.GET_SMALL_TALK_RANDOM_ANSWER, selectInfo);
+                this.server.to(roomId).emit(GameEvent.MOVE_TO_BLANK_TOPIC_RESULT);
         }
 
         afterInit() {
