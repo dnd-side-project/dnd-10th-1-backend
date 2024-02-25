@@ -212,14 +212,11 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
         }
 
         // 빈칸주제 랜덤결과 조회
-        @SubscribeMessage(GameEvent.GET_SMALL_TALK_RANDOM_ANSWER)
+        @SubscribeMessage(GameEvent.GET_BLANK_TOPIC_RANDOM_ANSWER)
         async onGetSmallTalkRandomAnswer(
                 @MessageBody() data: { userAnswerList: string[]; topicId: number; roomId: string },
         ) {
                 const { userAnswerList, topicId, roomId } = data;
-                // const userIds = userAnswerList.map((user) => user.userId);
-                // const randomIndex = Math.floor(Math.random() * userIds.length);
-                // const randomUserId = userIds[randomIndex];
 
                 const randomIndex = Math.floor(Math.random() * userAnswerList.length);
                 const randomUserId = Number(userAnswerList[randomIndex]);
@@ -238,8 +235,20 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                         topic,
                 };
 
-                this.server.to(roomId).emit(GameEvent.GET_SMALL_TALK_RANDOM_ANSWER, selectInfo);
+                this.server.to(roomId).emit(GameEvent.GET_BLANK_TOPIC_RANDOM_ANSWER, selectInfo);
+                // this.server.to(roomId).emit(GameEvent.MOVE_TO_BLANK_TOPIC_RESULT);
+        }
+
+        // 다같이 빈칸주제 랜덤 결과 페이지로 이동
+        @SubscribeMessage(GameEvent.MOVE_TO_BLANK_TOPIC_RESULT)
+        async onMoveToBlankTopicResult(@MessageBody() roomId: string) {
                 this.server.to(roomId).emit(GameEvent.MOVE_TO_BLANK_TOPIC_RESULT);
+        }
+
+        // 빈칸주제 랜덤 결과 페이지 내 새로고침
+        @SubscribeMessage(GameEvent.DRAW_AGAIN_USER_ANSWER)
+        async onDrawAgainUserAnswer(@MessageBody() roomId: string) {
+                this.server.to(roomId).emit(GameEvent.DRAW_AGAIN_USER_ANSWER);
         }
 
         afterInit() {
