@@ -84,5 +84,15 @@ export enum GameEvent {
          * */
         GET_USERS_ANSWER = 'get-users-answer',
 
-        GET_SMALL_TALK_RANDOM_ANSWER = 'get-small-talk-random-answer',
+        /**
+         * @event game[빈칸주제] - 랜덤 결과 조회
+         * @description 빈칸주제 게임의 결과 중 특정 사용자의 결과를 랜덤으로 뽑아줍니다.
+         * */
+        GET_BLANK_TOPIC_RANDOM_ANSWER = 'get-blank-topic-random-answer',
+
+        /**
+         * @event game[빈칸주제] - 새로고침
+         * @description 빈칸주제 게임의 랜덤 결과 페이지에서 새로고침 버튼을 누를 경우 페이지 새로고침을 지시합니다.
+         * */
+        DRAW_AGAIN_USER_ANSWER = 'draw-again-user-answer',
 }
