@@ -63,6 +63,15 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const userList = await this.roomService.findUsersByRoomId(roomId);
                 const totalCount = userList.length;
 
+                const roomUserList = await this.roomService.findUsersByRoomId(roomId);
+                const roomUserIdList = roomUserList.map((user) => user.id);
+
+                // 게임을 시작하면 모든 user를 READY --> ENTER로 상태 변경
+                const _updateUsersRoomStatus = await this.userService.updateUsersRoomStatus({
+                        userId: roomUserIdList,
+                        status: RoomEvent.ENTER,
+                });
+
                 // 빈칸주제 게임 데이터
                 if (gameId === 1) {
                         // 빈칸주제 데이터 9개 한정 랜덤 뽑기
