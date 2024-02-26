@@ -19,6 +19,11 @@ import { Role } from '@prisma/client';
 import { RoomEvent } from '../room/types/events';
 import { RoomService } from '../room/room.service';
 
+type UserAnswer = {
+        userId: number;
+        answer: string;
+};
+
 @WebSocketGateway({
         namespace: '/',
         cors: {
@@ -116,7 +121,6 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 }
 
                 // 참여자가 나간 경우
-
                 const _updateUserRoomStatus = await this.userService.updateUserRoomStatus({
                         userId: userId,
                         status: RoomEvent.EXIT,
@@ -214,16 +218,20 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
         // 빈칸주제 랜덤결과 조회
         @SubscribeMessage(GameEvent.GET_BLANK_TOPIC_RANDOM_ANSWER)
         async onGetSmallTalkRandomAnswer(
-                @MessageBody() data: { userAnswerList: string[]; topicId: number; roomId: string },
+                @MessageBody()
+                data: {
+                        userAnswerList: UserAnswer[];
+                        topicId: number;
+                        roomId: string;
+                },
         ) {
                 const { userAnswerList, topicId, roomId } = data;
 
                 const randomIndex = Math.floor(Math.random() * userAnswerList.length);
-                const randomUserId = Number(userAnswerList[randomIndex]);
+                const randomUserId = userAnswerList[randomIndex].userId;
+                const selectAnswer = userAnswerList[randomIndex].answer;
                 const { displayName, profileImage } =
                         await this.userService.findOneById(randomUserId);
-                const selectAnswer =
-                        await this.gameService.findAllBlankTopicOneUserAnswer(randomUserId);
                 const topic = await this.gameService.findOneBlankTopic(topicId);
 
                 const selectInfo = {
@@ -236,7 +244,6 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 };
 
                 this.server.to(roomId).emit(GameEvent.GET_BLANK_TOPIC_RANDOM_ANSWER, selectInfo);
-                // this.server.to(roomId).emit(GameEvent.MOVE_TO_BLANK_TOPIC_RESULT);
         }
 
         // 다같이 빈칸주제 랜덤 결과 페이지로 이동
