@@ -51,26 +51,41 @@ export class GameMbtiService {
                 };
         }
 
-        async setTeamMbti(teamMbtiList: string[]): Promise<string> {
-                let count: Record<string, number> = {};
-                let result = '';
+        async generateTeamMbti(teamMbtiList: string[]): Promise<string> {
+                const mbtiCounts: Record<string, number> = {
+                        E: 0,
+                        I: 0,
+                        S: 0,
+                        N: 0,
+                        T: 0,
+                        F: 0,
+                        J: 0,
+                        P: 0,
+                };
+                let teamMbti = '';
 
-                for (let i = 0; i < 4; i++) {
-                        for (var mbti of teamMbtiList) {
-                                count[mbti[i]] = (count[mbti[i]] || 0) + 1;
-                        }
-                }
+                // mbti 각 자리별 카운팅
+                teamMbtiList.forEach((mbti) => {
+                        mbti.split('').forEach((letter) => {
+                                mbtiCounts[letter]++;
+                        });
+                });
 
-                const keys = Object.keys(count);
+                const keys = Object.keys(mbtiCounts);
+
+                // E/I, S/N, T/F, J/P 각 자리별 카운팅 비교
                 for (let i = 0; i < keys.length - 1; i += 2) {
-                        if (count[keys[i]] >= count[keys[i + 1]]) {
-                                result += keys[i];
-                        } else {
-                                result += keys[i + 1];
-                        }
+                        const currentMbti = keys[i];
+                        const nextMbti = keys[i + 1];
+
+                        // 각 자리별 높은 빈도수의 MBTI 설정
+                        teamMbti +=
+                                mbtiCounts[currentMbti] >= mbtiCounts[nextMbti]
+                                        ? currentMbti
+                                        : nextMbti;
                 }
 
-                return result;
+                return teamMbti;
         }
 
         async getTeamResult(roomId: string) {
@@ -79,7 +94,7 @@ export class GameMbtiService {
                         where: { roomId: roomId },
                 });
                 const mbtiList = members.map((value) => value.mbti);
-                const teamMbti = await this.setTeamMbti(mbtiList);
+                const teamMbti = await this.generateTeamMbti(mbtiList);
                 const teamMbtiResult = await this.prismaService.gameMbti.findUnique({
                         select: { teamMbti: true },
                         where: { mbti: teamMbti },
