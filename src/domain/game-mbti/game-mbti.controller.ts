@@ -49,20 +49,18 @@ export class GameMbtiController {
                 description: '사용자에 따른 MBTI 결과 데이터 조회하기 성공',
         })
         @Get('/result')
-        async getMbtiResult(@Query() mbtiResultDto: MbtiResultDto, @Res() res: Response) {
+        async getMbtiResult(@Query() mbtiResultDto: MbtiResultDto) {
                 const { userId, roomId } = mbtiResultDto;
                 const { user, userMbtiResult } =
                         await this.gameMbtiService.getUserMbtiResult(userId);
                 const { members, teamMbtiResult } =
                         await this.gameMbtiService.getTeamResult(roomId);
 
-                return res.status(HttpStatus.OK).json({
-                        data: {
-                                user,
-                                userMbtiResult,
-                                teamMbtiResult,
-                                members,
-                        },
-                });
+                return {
+                        user,
+                        userMbtiResult,
+                        teamMbtiResult,
+                        members,
+                };
         }
 }
