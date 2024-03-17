@@ -1,6 +1,7 @@
 import { PrismaService } from '@/shared-service/prisma';
 import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
+import { isNull, isUndefined } from 'lodash';
 
 @Injectable()
 export class UserService {
@@ -97,25 +98,15 @@ export class UserService {
         }
 
         async setUserProfile(nickName: string, profileImage: string, roomId: string) {
-                let user;
-                if (roomId === '') {
-                        user = await this.prismaService.user.create({
-                                data: {
-                                        displayName: nickName,
-                                        profileImage: profileImage,
-                                        role: Role.Owner,
-                                },
-                        });
-                } else {
-                        user = await this.prismaService.user.create({
-                                data: {
-                                        displayName: nickName,
-                                        profileImage: profileImage,
-                                        role: Role.Participant,
-                                        roomId: roomId,
-                                },
-                        });
-                }
+                const setRoomId = isUndefined(roomId) || isNull(roomId) ? null : roomId;
+                const user = await this.prismaService.user.create({
+                        data: {
+                                displayName: nickName,
+                                profileImage: profileImage,
+                                role: Role.Participant,
+                                roomId: setRoomId,
+                        },
+                });
 
                 return user;
         }
