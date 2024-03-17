@@ -27,8 +27,7 @@ export class UserController {
                                 profileImage,
                                 roomId,
                         );
-                } else {
-                        return await this.userService.setUserProfile(nickName, profileImage, '');
                 }
+                return await this.userService.setUserProfile(nickName, profileImage, '');
         }
 }
