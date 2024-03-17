@@ -19,7 +19,7 @@ export class GameService {
                 return gameList;
         }
 
-        async findOneBlankTopic(blankTopicId: number) {
+        async findOneBlankTopicById(blankTopicId: number) {
                 const gameInfo = await this.prismaService.gameBlankTopic.findUnique({
                         select: {
                                 id: true,
@@ -95,19 +95,6 @@ export class GameService {
                                         roomId,
                                 },
                                 gameRoundId,
-                        },
-                });
-
-                return userAnswerList;
-        }
-
-        async findAllBlankTopicOneUserAnswer(userId: number) {
-                const userAnswerList = await this.prismaService.blankTopicResult.findMany({
-                        select: {
-                                answer: true,
-                        },
-                        where: {
-                                userId: userId,
                         },
                 });
 

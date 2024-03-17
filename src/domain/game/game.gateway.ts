@@ -81,7 +81,7 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                                 roomId,
                                 topicId: randomNum,
                         });
-                        const blankTopic = await this.gameService.findOneBlankTopic(randomNum);
+                        const blankTopic = await this.gameService.findOneBlankTopicById(randomNum);
                         const gameInfo = {
                                 totalCount,
                                 ...blankTopic,
@@ -241,7 +241,7 @@ export class GameEventsGateway implements OnGatewayInit, OnGatewayConnection, On
                 const selectAnswer = userAnswerList[randomIndex].answer;
                 const { displayName, profileImage } =
                         await this.userService.findOneById(randomUserId);
-                const topic = await this.gameService.findOneBlankTopic(topicId);
+                const topic = await this.gameService.findOneBlankTopicById(topicId);
 
                 const selectInfo = {
                         userInfo: {

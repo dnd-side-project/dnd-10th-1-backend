@@ -1,10 +1,9 @@
-import { Table } from 'console-table-printer';
 import cookieParser from 'cookie-parser';
 import helmet from 'helmet';
 import { WinstonModule } from 'nest-winston';
 import path from 'path';
 
-import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
@@ -13,7 +12,7 @@ import {
         winstonTransportConsoleOption,
         winstonTransportRotateFileOption,
 } from '@/common/config';
-import { printBootBanner } from '@/common/utils';
+import { printBootBanner, printEnvBanner } from '@/common/utils';
 
 import { ApiConfigService } from '@/shared-service/env';
 import { SharedServiceModule } from '@/shared-service/shared-service.module';
@@ -83,37 +82,10 @@ export class ExpressServer {
 
         public async start() {
                 await this.app.listen(this.config.appConfig.port, () => {
-                        Logger.debug(printBootBanner());
-
-                        const p = new Table({
-                                title: '환경변수 체크사항',
-                                columns: [
-                                        { name: 'env_name', alignment: 'right' },
-                                        { name: 'env_value', alignment: 'left' },
-                                ],
-                        });
-
-                        p.addRows([
-                                {
-                                        env_name: 'NODE_ENV',
-                                        env_value: `${this.config.nodeEnv}`,
-                                },
-                                {
-                                        env_name: 'DB_HOST',
-                                        env_value: `${this.config.dbConfig.url}`,
-                                },
-                                {
-                                        env_name: 'SERVER_URL',
-                                        env_value: `${this.config.appConfig.url}`,
-                                },
-                                {
-                                        env_name: 'SWAGGER_URL',
-                                        env_value: `${this.config.appConfig.url}/docs`,
-                                },
-                        ]);
+                        printBootBanner();
 
                         const isProd = this.config.isProduction;
-                        if (!isProd) p.printTable();
+                        if (!isProd) printEnvBanner(this.config);
                 });
         }
 }

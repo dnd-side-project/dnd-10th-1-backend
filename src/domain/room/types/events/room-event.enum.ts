@@ -45,11 +45,11 @@ export enum RoomEvent {
          * @event room - 대기실 이벤트
          * @description 사용자의 대기실 상태 정보를 준비완료로 변경 합니다.
          * */
-        READY = 'READY',
+        READY = 'ready',
 
         /**
          * @event room - 대기실 이벤트
          * @description 사용자의 대기실 상태 정보를 퇴장으로 변경 합니다.
          * */
-        EXIT = 'EXIT',
+        EXIT = 'exit',
 }
