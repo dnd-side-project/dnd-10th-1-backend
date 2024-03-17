@@ -103,7 +103,7 @@ export class UserService {
                                 data: {
                                         displayName: nickName,
                                         profileImage: profileImage,
-                                        role: 'Owner',
+                                        role: Role.Owner,
                                 },
                         });
                 } else {
@@ -111,7 +111,7 @@ export class UserService {
                                 data: {
                                         displayName: nickName,
                                         profileImage: profileImage,
-                                        role: 'Participant',
+                                        role: Role.Participant,
                                         roomId: roomId,
                                 },
                         });
