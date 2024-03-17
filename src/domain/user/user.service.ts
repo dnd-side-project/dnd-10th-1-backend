@@ -98,12 +98,16 @@ export class UserService {
         }
 
         async setUserProfile(nickName: string, profileImage: string, roomId: string) {
-                const setRoomId = isUndefined(roomId) || isNull(roomId) ? null : roomId;
+                const isRoomIdNullOrUndefined = isUndefined(roomId) || isNull(roomId);
+
+                const setRoomId = isRoomIdNullOrUndefined ? null : roomId;
+                const setRole = isRoomIdNullOrUndefined ? Role.Owner : Role.Participant;
+
                 const user = await this.prismaService.user.create({
                         data: {
                                 displayName: nickName,
-                                profileImage: profileImage,
-                                role: Role.Participant,
+                                profileImage,
+                                role: setRole,
                                 roomId: setRoomId,
                         },
                 });
